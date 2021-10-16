@@ -8,6 +8,8 @@ Online store for selling games.
 4. mysql
 5. sequelize ORM 
 
+# Project setup 
+ npm install 
 # Execution
 ## Server 
 npm start 
