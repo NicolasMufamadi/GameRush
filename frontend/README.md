@@ -1,4 +1,4 @@
-# amerush-frontend
+# frontend
 
 ## Project setup
 ```
