@@ -1,17 +1,19 @@
 const db = require('../../database/database')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = ((req,res)=>{
 
     var hashpassword = bcrypt.hashSync(req.body.Password,10)
 
    db.User.create({
-
-     Email: req.body.Email,
+     FirstName: req.body.FirstName,
+     LastName: req.body.LastName,
+     Email:    req.body.Email,
      Password: hashpassword,
-     Phone: req.body.Phone,
+     Phone:    req.body.Phone,
      UserType: req.body.UserType
 
    }).then((data)=>{
