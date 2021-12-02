@@ -23,7 +23,6 @@
 <v-toolbar-items>
     <v-form>
      <v-text-field
-     v-model="search"
      placeholder="Fifa 19"   
       outlined
       single-line
@@ -64,13 +63,13 @@
            </v-btn>
         </template>
         <v-list>
-           <v-list-item link >
+           <v-list-item @click="registerDialog=true">
              <v-list-item-title>
                <v-icon>mdi-account-plus</v-icon>
                Register
              </v-list-item-title>
            </v-list-item>
-            <v-list-item link >
+            <v-list-item @click="loginDialog=true" >
              <v-list-item-title>
                <v-icon>mdi-account-arrow-up</v-icon>
                Login
@@ -94,14 +93,54 @@
 
 </v-app-bar>
 
-</div>
+<v-dialog
+  v-model="registerDialog"
+  max-width="500px"
+  transition="dialog-transition"
+  >
+  <register :done="doneRegister" />
+</v-dialog>
 
+<v-dialog
+  v-model="loginDialog"
+  max-width="500px"
+  transition="dialog-transition"
+  >
+  <login :done="doneLogin" />
+</v-dialog>
+
+</div>
 </template>
+
+
+
 
 <script>
 
+import register from './Authentication/register.vue'
+import login from './Authentication/login.vue'
+
 export default {
- name: "Header"  
+ name: "Header",
+ components:{
+    register,
+    login
+ },
+ data: ()=>({
+    loginDialog: false,
+    registerDialog: false
+ }),
+ methods: {
+   
+    doneRegister(){
+      this.registerDialog = false;
+    },
+
+    doneLogin(){
+      this.loginDialog = false;
+    }
+
+ }
 }
 </script>
 
