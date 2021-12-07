@@ -41,8 +41,8 @@ module.exports = (sequelize,Sequelize) =>{
         },
 
         UserType: {
-            type: Sequelize.INTEGER,
-            default: 4,
+            type: Sequelize.STRING,
+            default: "Customer",
             allowNull:false
         }
 
