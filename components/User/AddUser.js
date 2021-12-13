@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
 dotenv.config();
 
-module.exports = ((req,res)=>{
+module.exports = ( async (req,res)=>{
 
-    var hashpassword = bcrypt.hashSync(req.body.Password,10)
+    var salt = await bcrypt.genSalt(10)
+    var hashpassword = bcrypt.hashSync(req.body.Password,salt)
 
    db.User.create({
      FirstName: req.body.FirstName,
@@ -25,7 +26,7 @@ module.exports = ((req,res)=>{
      
    }).catch((err)=>{
 
-     res.status(400).send({error: err})
+     res.status(400).send(err)
             
    })
    
