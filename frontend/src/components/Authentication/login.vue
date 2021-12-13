@@ -8,10 +8,13 @@
             <v-row>
                 <v-col cols="12" sm="12" ms="3">
                     <v-text-field
+                      v-model="Email"
                       label="Email"
                       type="email"
+                      :error="Email_err ? true : false"
+                      :error-messages="Email_err"
                       solo
-                      hide-details
+                      hide-details = "auto"
                  
                     >
 
@@ -21,10 +24,13 @@
 
                 <v-col cols="12" sm="12" ms="3">
                     <v-text-field
+                      v-model="Password"
                       label="Password"
                       type="password"
+                      :error="Password_err ? true : false"
+                      :error-messages="Password_err"
                       solo
-                      hide-details
+                      hide-details ="auto"
                   
                     >
 
@@ -46,7 +52,7 @@
         </v-container>
         <v-card-actions>
             <div class="mx-2" >
-          <v-btn color="#66FCF1">
+          <v-btn color="#66FCF1" @click="OnSubmit">
               Login
               </v-btn>
             </div>
@@ -60,13 +66,70 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
 
    name:"login",
    props:['done'],
+   data:()=>({
+        Email: '',
+        Password: '',
+        Email_err: null,
+        Password_err: null,
+
+   }),
    methods:{
+
+       OnSubmit(e){
+
+         e.preventDefault();
+          
+
+          if(!this.validate()) return false
+
+
+           axios.post("http://localhost:8025/users/login",{
+
+             Email: this.Email,
+             Password: this.Password
+             
+            }).then(response=>{
+                console.log(response)
+                this.reset()
+                this.done()
+            }).catch(error=>{
+                if(error){
+
+                    this.Password_err = "Password or Email incorrect"
+                }
+            })
+       },
+
+       validate(){
+         
+           let valid = true 
+           if(!this.Email  || !this.Password){
+               this.Email_err = "Required",
+               this.Password_err = "Required",
+               valid = false
+           }else{
+               this.Email_err = null
+               this.Password_err = null
+           }
+         return valid
+       },
+
        reset(){
+            
+            this.Email = '';
+            this.Email_err = '';
+            this.Password = null
+            this.Password_err = null
+        
            if(this.done) this.done()
+
        }
    }    
 }
