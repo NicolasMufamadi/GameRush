@@ -17,6 +17,6 @@ db.sequelize = sequelize;
 
 db.User = require('../models/User')(sequelize,Sequelize);
 db.Product = require('../models/product')(sequelize,Sequelize)
-db.sequelize.sync({force:true});
+//db.sequelize.sync({force:true});
 
 module.exports = db;
