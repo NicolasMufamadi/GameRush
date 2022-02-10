@@ -42,8 +42,8 @@ module.exports = (sequelize,Sequelize) =>{
 
         UserType: {
             type: Sequelize.STRING,
-            default: "Customer",
-            allowNull:false
+            defaultValue: "Customer",
+          
         }
 
     })
