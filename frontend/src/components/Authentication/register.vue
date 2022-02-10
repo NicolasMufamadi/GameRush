@@ -121,7 +121,6 @@
 </template>
 
 <script>
-
 import axios from 'axios'
 import Validator from 'validator'
 export default {
@@ -136,7 +135,6 @@ export default {
       ConfirmPassword: '',
       Phone: '',
       UserType: "Customer",
-
       FirstName_err: null,
       LastName_err: null,
       Email_err: null,
@@ -145,21 +143,15 @@ export default {
       Password_err: null,
       Phone_err: null,
     
-
    }),
    methods: {
-
    submitForm(e){
-
-
-
        e.preventDefault()
         
         
-     if(!this.validate()) return false
+     if(!this.validateInput()) return false
    
-
-            axios.post('http://localhost:8025/users/register',{
+            axios.post('http://localhost:8000/users/register',{
               FirstName: this.FirstName,
               LastName: this.LastName,
               Email: this.Email,
@@ -171,7 +163,6 @@ export default {
              console.log(response)
              this.reset()
              this.done()
-
              })
            .catch(error=>{
              
@@ -181,63 +172,43 @@ export default {
         
              
              })
-
          },
-
-    
-     validate(){
+     validateInput(){
       
         let valid = true
        
-        if(!this.Email && !this.FirstName && !this.LastName  && !this.Password && !this.Phone ){
-                      this.Email_err = "Required"
-                      this.FirstName_err = "Required"
-                      this.LastName_err = "Required"
-                      this.Password_err = "Required"
-                      this.Phone_err = "Required"
-                      valid = false
-            } 
-
-         if(this.FirstName.length < 4){
-             this.FirstName_err = "FirstName must have at least 4 characters"
+         if(this.FirstName.length < 3){
+             this.FirstName_err = "FirstName must have at least 3 characters"
              valid = false
          }  else{
            this.FirstName_err = null
          }
-
-        if(this.LastName.length < 4 ){
-          this.LastName_err = "LastName must have at least 4 characters"
+        if(this.LastName.length < 3 ){
+          this.LastName_err = "LastName must have at least 3 characters"
            valid = false
         }else{
           this.LastName_err = null
         } 
-
         if(!Validator.isEmail(this.Email)){
            this.Email_err = "Invalid Email"
             valid = false
         }else{
           this.Email_err = null
         }
-
         if( Validator.isEmail(this.Email) && this.Email !== this.ConfirmEmail){
            this.ConfirmEmail_err = "Email does not match"
             valid = false 
         }else{
           this.ConfirmEmail_err = null
         }           
-
         let PasswordStrength = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})")
-
         if(!PasswordStrength.test(this.Password)){
           
           this.Password_err = "At least 8 characters, 1 uppercase,1 lowercase, 1 digit & 1 special character"
           valid = false
-
         }else{
           this.Password_err = null
         }
-
-
         if( PasswordStrength.test(this.Password) && this.Password !== this.ConfirmPassword){
           this.ConfirmPassword_err = "Password does not match"
           valid = false 
@@ -257,13 +228,10 @@ export default {
     
      ValidateNumber(number){
       let phonReg = new RegExp("[0|+27]{1}[0-9]{9,}")
-
          return phonReg.test(number);
      },
      
-
      reset(){
-
              
         this.FirstName = '';
         this.LastName = '';
@@ -281,9 +249,7 @@ export default {
         this.ConfirmPassword_err = null
         this.Phone_err = null
         
-
        if(this.done) this.done();
-
      }
    }
 };
