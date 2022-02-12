@@ -96,7 +96,10 @@ export default {
              Password: this.Password
              
             }).then(response=>{
-                console.log(response)
+
+               // console.log(response.data.token)
+                localStorage.setItem('token',response.data.token)
+                this.$store.dispatch('user',response.data.token)
                 this.reset()
                 this.done()
             }).catch(error=>{
