@@ -63,23 +63,36 @@
            </v-btn>
         </template>
         <v-list>
-           <v-list-item @click="registerDialog=true">
+           <v-list-item @click="registerDialog=true"   v-if="!user">
              <v-list-item-title>
                <v-icon>mdi-account-plus</v-icon>
                Register
              </v-list-item-title>
+             </v-list-item>
+
+             <v-list-item v-if="user">
+              <v-list-item-title>
+               <v-icon>mdi-account</v-icon>
+               MyAccount
+             </v-list-item-title>
            </v-list-item>
-            <v-list-item @click="loginDialog=true" >
+
+            <v-list-item @click="loginDialog=true" v-if="!user">
              <v-list-item-title>
                <v-icon>mdi-account-arrow-up</v-icon>
                Login
              </v-list-item-title>
+
            </v-list-item>
-           <v-list-item>
+           <v-list-item v-if="user">
             <v-list-item-title>
             <v-icon>mdi-archive</v-icon>
                 MyOrders
             </v-list-item-title>
+           </v-list-item>
+
+           <v-list-item @click="logout" v-if="user">
+             <v-list-item-title><v-icon>mdi-account-arrow-down</v-icon>Logout</v-list-item-title>
            </v-list-item>
         </v-list>
        </v-menu>
@@ -125,6 +138,7 @@
 
 import register from './Authentication/register.vue'
 import login from './Authentication/login.vue'
+import {mapGetters} from 'vuex'
 
 export default {
  name: "Header",
@@ -136,6 +150,11 @@ export default {
     loginDialog: false,
     registerDialog: false
  }),
+ computed:{
+
+     ...mapGetters(['user']),
+
+ },
  methods: {
    
     doneRegister(){
