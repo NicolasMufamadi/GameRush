@@ -1,8 +1,9 @@
 const db = require('../../database/database')
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-const User = require('../../models/User');
+
+//const User = require('../../models/User');
 
 module.exports = (req,res)=>{
 
@@ -19,9 +20,8 @@ module.exports = (req,res)=>{
                 const token = jwt.sign({...data},process.env.SECRET,{
                     expiresIn: "1h"
                 })
-
                 res.status(200).send({message:'Logged In', token: token, data: data.dataValues})
-             }else {
+            }else {
                  res.status(400).send({error:{message: 'Incorrect password'}})
              }
           })
@@ -31,4 +31,8 @@ module.exports = (req,res)=>{
         console.log(err);
     })
 
+
+
+
 }
+
