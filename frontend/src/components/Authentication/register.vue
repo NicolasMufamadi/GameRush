@@ -123,6 +123,7 @@
 <script>
 import axios from 'axios'
 import Validator from 'validator'
+//import {mapGetters} from 'vuex'
 export default {
   name: "register",
    props: ["done"],
@@ -161,6 +162,7 @@ export default {
            }).then(response=>{
              
              console.log(response)
+             //this.$store.dispatch('user',response.data.token)
              this.reset()
              this.done()
              })

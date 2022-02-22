@@ -1,0 +1,51 @@
+<template>
+    <div class="d-flex justify-space-between">
+        <div>
+            <UserCard/>
+        </div>
+
+        <div class="container mt-16 ml-5">
+
+            <div>
+                <h1>Edit Your Numbers</h1>
+            </div>
+
+            <div>
+                <form >
+                    <div>
+                         <v-text-field label="Current Numbers" filled color="#1F2833">
+
+                         </v-text-field>
+                    </div>
+                    <div>
+                        <v-text-field label="New Numbers" filled color="#1F2833">
+
+                        </v-text-field>
+
+                    </div>
+                 <div  class="d-flex justify-end">
+                    <v-btn class="mx-5" color="error" large outlined>Cancel</v-btn>
+                    <v-btn color="#1F2833" large outlined>Update</v-btn>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </div>    
+</template>
+
+<script>
+
+import UserCard from '../UserCard.vue'
+
+export default {
+    name: "PhoneForm",
+    components: {
+        UserCard
+    }    
+}
+</script>
+
+<style>
+
+</style>
