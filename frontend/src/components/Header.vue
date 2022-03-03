@@ -51,17 +51,15 @@
      <v-menu offset-y>
      <template v-slot:activator="{on,attrs}">
     <v-btn
-           outlined
-           light
+           outlined       
            v-bind="attrs"
-           v-on="on"
-           depressed
+           v-on="on"      
            color="cyan"
            class="mx-3"
            
     >
     <v-icon>mdi-account</v-icon>
-         MyAccount
+        MyAccount
              </v-btn>
         </template>
         <v-list>
@@ -72,7 +70,7 @@
              </v-list-item-title>
              </v-list-item>
 
-             <v-list-item @click="viewAccount" v-if="user" to='/myaccount'>
+             <v-list-item  v-if="user" to="/myaccount">
               <v-list-item-title>
                <v-icon>mdi-account</v-icon>
                MyAccount
@@ -91,6 +89,10 @@
             <v-icon>mdi-archive</v-icon>
                 MyOrders
             </v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType =='Admin'">
+             <v-list-item-title><v-icon>mdi-archive-cog</v-icon>Admin Panel</v-list-item-title>
            </v-list-item>
 
            <v-list-item @click="logout"  v-if="user">
@@ -128,7 +130,7 @@
   max-width="500px"
   transition="dialog-transition"
   >
-  <login :done="doneLogin" />
+  <login :done="doneLogin"/>
  
 </v-dialog>
 
@@ -159,7 +161,24 @@ export default {
 
      ...mapGetters(['user']),
 
+     isAdmin(){
+       if(this.user.UserType == "Admin"){
+         return true
+       }else{
+         return false
+       }
+     }
+
  },
+
+  created(){
+
+     //  const Id = localStorage.getItem('UserId')
+     //  this.$store.dispatch('getUserId',Id)
+     //  this.$store.dispatch('user')
+
+  },
+
  methods: {
    
     doneRegister(){
@@ -168,18 +187,16 @@ export default {
 
     doneLogin(){
       this.loginDialog = false;
-      // this.$router.push('/')
-    },
-
-    viewAccount(){
-      
+       this.$router.go('/')
     },
     
          logout(){
-        localStorage.removeItem('token')
-        this.$router.push('/')
+      //  localStorage.removeItem('token')
+        //localStorage.setItem('UserId',null)
+        this.$store.dispatch('logout')
         sessionStorage.clear();
-        this.$store.dispatch('user',null)
+        this.$router.push('/')
+        this.loginDialog = true
     }
 
 

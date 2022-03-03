@@ -15,7 +15,7 @@
 
        <v-list-item-group>
          
-         <v-list-item @click="viewProfile"  to='/myaccount/personal-details'>
+         <v-list-item   to='/myaccount/personal-details/'>
              
              <v-list-item-icon>
                  <v-icon>mdi-account-edit</v-icon>
@@ -27,7 +27,7 @@
 
          </v-list-item>
 
-       <v-list-item @click="viewProfile">
+       <v-list-item >
              
              <v-list-item-icon>
                  <v-icon>mdi-application-edit</v-icon>
@@ -50,14 +50,20 @@
 </template>
 
 <script>
-
+//import axios from 'axios'
 export default {
     name:"UserCard",
 
-    methods:{
-        viewProfile(){
+    data:()=>({
+    
 
-        }
+
+    }),
+
+ 
+    methods:{
+      
+
     }
 
 }

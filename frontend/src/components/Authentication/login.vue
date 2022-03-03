@@ -69,6 +69,7 @@
 
 import axios from 'axios'
 
+
 export default {
 
    name:"login",
@@ -81,6 +82,7 @@ export default {
 
    }),
    methods:{
+
 
        OnSubmit(e){
 
@@ -97,9 +99,14 @@ export default {
              
             }).then(response=>{
 
-               // console.log(response.data.token)
-                localStorage.setItem('token',response.data.token)
-                this.$store.dispatch('user',response.data.token)
+                console.log(response.data)
+             //   localStorage.setItem('token',response.data.token)
+             //   localStorage.setItem('UserId',response.data.data.UserId)
+             //   this.$store.dispatch('getUserId',response.data.data.UserId)
+             //   this.$store.dispatch('userToken',response.data.token)
+                
+                this.$store.dispatch('getauth',response.data)
+
                 this.reset()
                 this.done()
             }).catch(error=>{
@@ -128,7 +135,7 @@ export default {
             
             this.Email = '';
             this.Email_err = '';
-            this.Password = null
+            this.Password = ''
             this.Password_err = null
         
            if(this.done) this.done()
