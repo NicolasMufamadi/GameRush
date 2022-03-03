@@ -11,28 +11,39 @@
             </div>
 
             <div class="mb-3">
-                <h3>Current Email:</h3>
-                <span></span>
+                <h3>Current Email: <span>{{user.data.Email}}</span></h3>
             </div>
             
             <form >
 
             <div>
-                <v-text-field label="New Email" filled color="#1F2833">
+                <v-text-field
+                  label="New Email"
+                  filled color="#1F2833"
+                  v-model="Email"
+                  :error="email_err ? true : false"
+                  :error-messages="email_err"  
+                >
 
                 </v-text-field>
             </div>
 
             <div>
-                <v-text-field label="Confirm-Email" filled color="#1F2833">
+                <v-text-field 
+                  label="Confirm-Email"
+                  filled color="#1F2833"
+                  v-model="Confirm_Email"
+                  :error="confirm_email_err ? true : false"
+                  :error-messages="confirm_email_err"    
+                >
 
                 </v-text-field>
             </div>
 
             <div class="d-flex justify-end">
                                 
-               <v-btn class="mx-5" color="error" large outlined >Cancel</v-btn>
-               <v-btn color="#1F2833" large outlined>Update</v-btn>
+               <v-btn @click="cancel" class="mx-5" color="error" large outlined >Cancel</v-btn>
+               <v-btn @click="updateEmail" color="#1F2833" large outlined>Update</v-btn>
 
             </div>
 
@@ -43,11 +54,100 @@
 </template>
 
 <script>
+
 import UserCard from '../UserCard.vue'
+import {mapGetters} from 'vuex'
+import axios from 'axios'
+import Validator from 'validator'
+
 export default {
 
    name: "EmailForm",
-   components: {UserCard}
+   components:
+    {           
+        UserCard
+    },
+
+    data:()=>({
+
+        Id: '',
+        Email: '',
+        Confirm_Email: '',
+        email_err: '',
+        confirm_email_err: ''
+
+    }),
+
+    computed:
+    {
+        ...mapGetters(['user'])
+    },
+
+    created(){
+         
+         this.Id = this.user.data.UserId
+         this.Email = this.user.data.Email
+    },
+
+    methods:
+ {
+
+        async updateEmail(){
+            
+            if(!this.validate()) return false
+
+        await axios.put(`http://localhost:8000/users/updateuser/email/${this.Id}`,
+        {
+
+          Email: this.Email,
+
+        }).then(data=>{
+            
+         this.$store.dispatch('getauth',data)       
+         this.$router.push('/myaccount/personal-details/')
+          
+        }).catch(err=>{
+           if(err){
+               this.email_err = 'Email aready exist'
+           }
+        })
+
+
+     },
+
+     validate(){
+
+         let valid = true
+      if(!Validator.isEmail(this.Email)){
+            this.email_err = "Invalid Email"
+            valid = false
+        
+        }else if(Validator.isEmail(this.Email) && this.Email !== this.Confirm_Email){
+          this.confirm_email_err = 'Email does not match'
+          valid = false 
+
+        }
+        
+        else{
+        
+             
+             this.confirm_email_err = null
+             this.email_err = null
+        
+           }
+
+
+        return valid 
+
+     },
+
+     cancel(){
+           
+           this.$router.push('/myaccount/personal-details/')
+
+     }
+
+ }
 
 }
 </script>
