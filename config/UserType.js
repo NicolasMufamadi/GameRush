@@ -2,6 +2,11 @@ module.exports = ()=>{
 
   const UserType =  [
 
+       {
+           type: 'Super',
+           id: 0
+       },
+
         {
           
             Type: 'Admin',
@@ -11,14 +16,14 @@ module.exports = ()=>{
 
         {
 
-            Type: 'Order Manager',
+            Type: 'OrderManager',
             id: 2
 
         },
 
         {
 
-            Type: 'Product Manager',
+            Type: 'ProductManager',
             id: 3 
 
         },
