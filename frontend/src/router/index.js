@@ -26,7 +26,7 @@ const routes = [
     },
 
     {
-        path: '/myaccount/personal-details',
+        path: '/myaccount/personal-details/',
         name: 'Personal-Details',
         component: ProfileDetails
     },
