@@ -20,8 +20,8 @@ function auth(req,res,next) {
 
 
 }
-/*
 
+/*
 function auth(req,res,next) {
 
     try{
@@ -32,10 +32,10 @@ function auth(req,res,next) {
              console.log(decodedToken)
           const userid = decodedToken.dataValues.UserId
               console.log( userid +' : ' +req.params.UserId)
-          if( req.body.UserId && req.body.UserId !== userid){
-             throw 'Invalid User ID'
+          if( req.params.UserId && req.params.UserId !== userid){
+            next()
           }else{
-                 next()
+                throw 'Invalid UserId'
                // return res.status(200).send('Authorized')
           }
 
@@ -44,6 +44,5 @@ function auth(req,res,next) {
     }
 
 }
-
 */
 module.exports = auth
