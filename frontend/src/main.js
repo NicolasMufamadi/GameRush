@@ -4,7 +4,9 @@ import Vuetify from 'vuetify/lib'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import Axios from 'axios'
 
+Axios.defaults.baseURL = process.env.BASE_URL
 
 Vue.config.productionTip = false
 Vue.use(Vuetify,{
