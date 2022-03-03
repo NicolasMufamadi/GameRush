@@ -18,11 +18,11 @@ module.exports = (req,res)=>{
              }
              if(response){
                 const token = jwt.sign({...data},process.env.SECRET,{
-                    expiresIn: "1h"
+                    expiresIn: "15s"
                 })
                 res.status(200).send({message:'Logged In', token: token, data: data.dataValues})
             }else {
-                 res.status(400).send({error:{message: 'Incorrect password'}})
+                 res.status(403).send({error:{message: 'Incorrect password'}})
              }
           })
        } else res.status(400).send({error:{message:'Email does not exist'}})
