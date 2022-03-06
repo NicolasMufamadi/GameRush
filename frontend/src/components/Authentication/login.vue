@@ -68,7 +68,7 @@
 <script>
 
 import axios from 'axios'
-
+import {mapActions} from 'vuex'
 
 export default {
 
@@ -83,7 +83,8 @@ export default {
    }),
    methods:{
 
-
+     ...mapActions(['checkauth']),
+ 
        OnSubmit(e){
 
          e.preventDefault();
@@ -100,12 +101,9 @@ export default {
             }).then(response=>{
 
                 console.log(response.data)
-             //   localStorage.setItem('token',response.data.token)
-             //   localStorage.setItem('UserId',response.data.data.UserId)
-             //   this.$store.dispatch('getUserId',response.data.data.UserId)
-             //   this.$store.dispatch('userToken',response.data.token)
-                
-                this.$store.dispatch('getauth',response.data)
+               localStorage.setItem('token',response.data.token)               
+               this.checkauth()
+               this.$store.dispatch('getauth',response.data)
 
                 this.reset()
                 this.done()
@@ -135,7 +133,7 @@ export default {
             
             this.Email = '';
             this.Email_err = '';
-            this.Password = ''
+            this.Password = null
             this.Password_err = null
         
            if(this.done) this.done()
