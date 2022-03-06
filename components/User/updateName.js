@@ -9,14 +9,12 @@ module.exports = ((req,res)=>{
           FirstName: req.body.FirstName || data.dataValues.FirstName,
           LastName: req.body.LastName || data.dataValues.LastName
       }).then(response=>{
-
-        res.status(200).send(response)
-
+         console.log(response)
       }).catch(err=>{
           res.status(400).send(err)
       })
   }).catch(err=>{
-      res.status(401).send(err)
+         res.status(401).send(err)
   })
 
 
