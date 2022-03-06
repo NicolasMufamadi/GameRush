@@ -59,7 +59,7 @@
            
     >
     <v-icon>mdi-account</v-icon>
-        MyAccount
+       MyAccount
              </v-btn>
         </template>
         <v-list>
@@ -146,6 +146,7 @@ import register from './Authentication/register.vue'
 import login from './Authentication/login.vue'
 import {mapGetters} from 'vuex'
 
+
 export default {
  name: "Header",
  components:{
@@ -159,27 +160,14 @@ export default {
  }),
  computed:{
 
-     ...mapGetters(['user']),
-
-     isAdmin(){
-       if(this.user.UserType == "Admin"){
-         return true
-       }else{
-         return false
-       }
-     }
+     ...mapGetters(['user'])
 
  },
 
-  created(){
-
-     //  const Id = localStorage.getItem('UserId')
-     //  this.$store.dispatch('getUserId',Id)
-     //  this.$store.dispatch('user')
-
-  },
 
  methods: {
+
+
    
     doneRegister(){
       this.registerDialog = false;
@@ -191,8 +179,8 @@ export default {
     },
     
          logout(){
-      //  localStorage.removeItem('token')
-        //localStorage.setItem('UserId',null)
+      // localStorage.removeItem('token')
+      //  localStorage.setItem('token',null)
         this.$store.dispatch('logout')
         sessionStorage.clear();
         this.$router.push('/')
