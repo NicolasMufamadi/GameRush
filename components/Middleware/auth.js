@@ -3,46 +3,31 @@ const jwt = require('jsonwebtoken')
 
 function auth(req,res,next) {
 
- 
-        const token = req.headers.authorization.split(" ")[1]
-        if(token == null || token == undefined) return res.status(401).send('No token found')
-        
-        jwt.verify(token,process.env.SECRET,((err,user)=>{
-             console.log(user)
-               if(err){
-                  return res.status(401).send('Invalid Token')
-               }
-                 req.user = user 
-                 next()
-             }
-         ))
-        
-
-
-}
-
-/*
-function auth(req,res,next) {
-
-    try{
-           const token = req.headers.authorization.split(' ')[1]
-          if(token == null || token == undefined) return res.status(401)
- 
-          const decodedToken = jwt.verify(token,process.env.SECRET)
-             console.log(decodedToken)
-          const userid = decodedToken.dataValues.UserId
-              console.log( userid +' : ' +req.params.UserId)
-          if( req.params.UserId && req.params.UserId !== userid){
-            next()
+         const auth = req.headers.authorization
+        if(auth){
+          
+         const token = req.headers.authorization.split(' ')[1]
+     //    const token = localStorage.getItem('token')
+          
+          if(token == null || token == undefined){
+            res.status(404).send("Token not found")
           }else{
-                throw 'Invalid UserId'
-               // return res.status(200).send('Authorized')
+               jwt.verify(token,process.env.SECRET,(err,user)=>{
+            
+                 if(user){
+                      res.status(200).send(user)
+                   next()
+                 }else{
+                  res.status(403).send('Token expired')
+                 }
+               })
           }
-
-    }catch(err){
-         return res.status(403).send(err)
-    }
+          
+        }else{
+          res.status(401).send("Unauthorized")
+        }
+        
 
 }
-*/
+
 module.exports = auth
