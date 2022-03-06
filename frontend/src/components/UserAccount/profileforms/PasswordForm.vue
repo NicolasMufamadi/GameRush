@@ -93,12 +93,24 @@ export default {
         ...mapGetters(['user'],['UserId'])
    },
 
-   created(){
-        
+  beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then(()=>{
+         
          this.Id = this.user.data.UserId
          this.Password = this.user.data.Password
-
-   },
+        }).catch(()=>{
+          
+            this.$router.push('/')
+            this.$store.dispatch('logout')
+        })
+    
+  },
 
    methods:
    {
@@ -132,7 +144,7 @@ export default {
 
               bcrypt.compare(this.CurrentPassword,this.Password,(err,response)=>{
                   if(err){
-                      console.log(this.CurrentPassword +''+ this.Password)
+                
                       this.current_passwor_err = 'Current Password not matching'
                       valid = false
                   }

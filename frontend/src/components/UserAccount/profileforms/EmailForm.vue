@@ -11,7 +11,7 @@
             </div>
 
             <div class="mb-3">
-                <h3>Current Email: <span>{{user.data.Email}}</span></h3>
+                <h3>Current Email: <span>{{ user ? user.data.Email : null}}</span></h3>
             </div>
             
             <form >
@@ -83,11 +83,24 @@ export default {
         ...mapGetters(['user'])
     },
 
-    created(){
-         
+          beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then(()=>{
+
          this.Id = this.user.data.UserId
          this.Email = this.user.data.Email
-    },
+        }).catch(()=>{
+          
+            this.$router.push('/')
+            this.$store.dispatch('logout')
+        })
+    
+  },
 
     methods:
  {

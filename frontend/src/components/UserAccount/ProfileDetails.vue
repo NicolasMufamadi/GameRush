@@ -16,7 +16,7 @@
     <div class="name pa-5  ml-4 cyan--text">
       <div>
         <h3>Name</h3>
-        <span>{{user.data.FirstName}} {{user.data.LastName}}</span>
+        <span>{{ user ? user.data.FirstName : ''}} {{user? user.data.LastName :''}}</span>
       </div>
 
       <div>
@@ -28,7 +28,7 @@
     <div class="name pa-5  ml-4 cyan--text">
       <div>
         <h3>Email</h3>
-        <span>{{user.data.Email}}</span>
+        <span>{{ user ? user.data.Email : ''}}</span>
       </div>
 
       <div>
@@ -40,8 +40,7 @@
 
     <div class="name pa-5  ml-4 cyan--text">
       <div>
-        <h3>Password</h3>
-        <span>update your password</span>
+        <h3>Update your password</h3>
       </div>
 
       <div>
@@ -54,11 +53,11 @@
        <div class="name pa-5 ml-4 cyan--text">
       <div>
         <h3>Mobile Number</h3>
-        <span>{{user.data.Phone}}</span>
+        <span>{{user ? user.data.Phone : ''}}</span>
       </div>
 
       <div>
-        <v-btn fab outlined light depressed color="cyan" to='/myaccount/personal-details/phone'>
+        <v-btn  fab outlined light depressed color="cyan" to='/myaccount/personal-details/phone'>
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </div>
@@ -72,6 +71,7 @@
 
 import UserCard from "../UserAccount/UserCard.vue";
 import {mapGetters} from 'vuex'
+import axios from "axios"
 
 export default {
   name: "ProfileDetails",
@@ -80,7 +80,7 @@ export default {
   },
 
   computed:{
-       ...mapGetters(['user']),
+       ...mapGetters(['user','auth']),
   },
 
   data:()=>({
@@ -88,12 +88,23 @@ export default {
 
   }),
 
+  beforeMount(){
 
-
-  methods: {
-   
-
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then(data=>{
+          console.log(data)
+        }).catch(()=>{
+          
+            this.$router.push('/')
+            this.$store.dispatch('logout')
+        })
+    
   },
+
 };
 </script>
 
