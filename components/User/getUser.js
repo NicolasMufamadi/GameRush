@@ -3,12 +3,12 @@ const db = require('../../database/database')
 module.exports= (req,res)=>{
 
 
-  db.User.findOne({ where: {UserId: req.params.UserId}}).then(data=>{
+  db.User.findOne({ where: {UserId: req.params.UserId}}).then(()=>{
 
-    res.status(200).send(data);
+   res.status(200);
 
-  }).catch(err=>{
-      res.send(err)
+  }).catch(()=>{
+      res.status(403)
   })
 
 
