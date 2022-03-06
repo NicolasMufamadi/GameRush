@@ -66,7 +66,7 @@ const routes = [
     {path:'*',redirect:'/PageNotfound'}
 
 
-]
+];
 
 const router = new VueRouter({
 
