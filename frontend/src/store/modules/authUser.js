@@ -1,3 +1,4 @@
+import axios from 'axios'
 
 const state = {
     user: null,
@@ -9,16 +10,37 @@ const mutations = {
         state.user = data
     },
 
+  async checkout(state){
+        try{
+             let response = await axios.post('http://localhost:8000/users/checkauth',{})
+             console.log('auth' + response)
+            if(response){
+                state.auth = true  
+            }
+        }catch(err){
+            if(err){
+                state.auth = false
+            }
+        }
+    },
+
     logout(state){
         localStorage.removeItem('token')
         state.user = null
+       // state.auth = false
     }
+
+
 }
 
 const actions = {
 
     getauth({commit},data){
         commit('setAuth',data)
+    },
+
+    checkauth({commit}){
+        commit('checkout')
     },
 
     logout({commit}){
@@ -29,6 +51,7 @@ const actions = {
 
 const getters = {
     user: state => state.user,
+    auth: state => state.auth  
 }
 
 

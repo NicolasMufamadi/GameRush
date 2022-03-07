@@ -16,7 +16,7 @@ module.exports = (req,res)=>{
 
              if(response){
                 const token = jwt.sign({UserId:data.dataValues.UserId,Role:data.dataValues.UserType},process.env.SECRET,{
-                    expiresIn: "30m"
+                    expiresIn: "2m"
                 })
                 res.status(200).send({message:'Logged In', token: token, data: data.dataValues})
             }else {

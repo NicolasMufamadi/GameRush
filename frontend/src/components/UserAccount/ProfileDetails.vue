@@ -80,7 +80,7 @@ export default {
   },
 
   computed:{
-       ...mapGetters(['user','auth']),
+       ...mapGetters(['user']),
   },
 
   data:()=>({

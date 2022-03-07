@@ -36,7 +36,7 @@
            <div class="d-flex justify-end">
             
                <v-btn @click="cancel" class="mx-5" color="error" large outlined>Cancel</v-btn>
-               <v-btn @click="update" color="#1F2833" large outlined>Update</v-btn>
+               <v-btn @click="updateName" color="#1F2833" large outlined>Update</v-btn>
 
            </div>
 
@@ -83,7 +83,7 @@ export default {
         axios.post('http://localhost:8000/users/checkauth',this.user,{
           headers:{
             'content-type': 'text/json',
-            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+           'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
         }).then(data=>{
           console.log(data)
@@ -100,24 +100,22 @@ export default {
 
   methods:{
 
-    async  update(e){
+      updateName(e){
        
        e.preventDefault()
        if(!this.validate()) return false
 
-      await   axios.put(`http://localhost:8000/users/updateuser/name/${this.Id}`,
+         axios.put(`http://localhost:8000/users/updateuser/name/${this.Id}`,
         {
           FirstName: this.FirstName,
           LastName: this.LastName,
 
         }).then(data=>{
-             console.log(data)
-            this.$store.dispatch('getauth',data)
+            console.log(data)
+             this.$store.dispatch('getauth',data)
              this.$router.push('/myaccount/personal-details/')
-        }).catch(()=>{
-          this.$store.dispatch('getauth',null)
-          this.$store.dispatch('logout')
-          this.$router.push('/')
+        }).catch((err)=>{
+            console.log(err)
         })
         
      },
