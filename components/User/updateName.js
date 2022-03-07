@@ -4,8 +4,8 @@ module.exports = ((req,res)=>{
 
     db.User.findByPk(req.params.UserId).then(data=>{
         data.update({
-            FirstName: req.FirstName || data.dataValues.FirstName,
-            LastName: req.LastName || data.dataValues.LastName
+            FirstName: req.body.FirstName || data.dataValues.FirstName,
+            LastName: req.body.LastName || data.dataValues.LastName
         }).then(response=>{
             res.status(200).send(response)
         }).catch(err=>{
