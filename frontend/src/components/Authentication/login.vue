@@ -97,13 +97,16 @@ export default {
              Password: this.Password
              
             }).then(response=>{
+               
+               if(response.data.data.IsBanned == false){
 
-                console.log(response.data.token)
-               localStorage.setItem('token',response.data.token)               
-               this.$store.dispatch('getauth',response.data)
-
-                this.reset()
-                this.done()
+                   localStorage.setItem('token',response.data.token)               
+                   this.$store.dispatch('getauth',response.data)
+                   this.reset()
+                 this.done()
+               }else{
+                   this.Password_err = "You've been banned"
+               }
             }).catch(error=>{
                 if(error){
 
