@@ -86,12 +86,24 @@
            </v-list-item>
            <v-list-item v-if="user">
             <v-list-item-title>
-            <v-icon>mdi-archive</v-icon>
+            <v-icon>mdi-briefcase-check</v-icon>
                 MyOrders
             </v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType =='Admin'">
+           <v-list-item v-if="user && user.data.UserType =='Product Manager'">
+             <v-list-item-title><v-icon>mdi-archive</v-icon>Manage Products</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Order Manager'">
+             <v-list-item-title><v-icon>mdi-briefcase-edit</v-icon>Manage Orders</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'">
+             <v-list-item-title><v-icon>mdi-truck-check</v-icon>Manage Deliveries</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType =='Admin'" to='/adminpanel'>
              <v-list-item-title><v-icon>mdi-archive-cog</v-icon>Admin Panel</v-list-item-title>
            </v-list-item>
 
@@ -160,7 +172,7 @@ export default {
  }),
  computed:{
 
-     ...mapGetters(['user'])
+    ...mapGetters(['user'])
 
  },
 
