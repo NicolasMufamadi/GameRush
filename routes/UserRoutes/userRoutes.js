@@ -13,6 +13,8 @@ const updateName = require('../../components/User/updateName')
 const updateEmail = require('../../components/User/updateEmail');
 const updatePhone = require('../../components/User/updatePhone');
 const updatePassword = require('../../components/User/updatePassword')
+const updateRole = require('../../components/User/updateRole')
+const banuser = require('../../components/User/BanUser')
 
 router.post("/register",registerUser)
 router.post("/login",login)
@@ -24,6 +26,8 @@ router.put('/updateuser/name/:UserId',updateName)
 router.put('/updateuser/email/:UserId',updateEmail)
 router.put('/updateuser/phone/:UserId',updatePhone)
 router.put('/updateuser/password/:UserId',updatePassword)
+router.put('/updateuser/role/:UserId',updateRole)
+router.put('/updateuser/ban/',banuser)
 router.delete('/deleteuser/:UserId',deleteUser)
 
 
