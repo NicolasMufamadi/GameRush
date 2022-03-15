@@ -44,6 +44,11 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.STRING,
             defaultValue: "Customer",
           
+        },
+
+        IsBanned:{
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
 
     })
