@@ -12,28 +12,29 @@ module.exports = (req,res)=>{
     .then(data=>{
         if(data){
             //compare input password with the password in the database 
-          bcrypt.compare(req.body.Password,data.dataValues.Password,(err,response)=>{
+        
+              bcrypt.compare(req.body.Password,data.dataValues.Password,(err,response)=>{
 
              if(response){
                 const token = jwt.sign({UserId:data.dataValues.UserId,Role:data.dataValues.UserType},process.env.SECRET,{
-                    expiresIn: "2m"
+                    expiresIn: "5m"
                 })
                 res.status(200).send({message:'Logged In', token: token, data: data.dataValues})
             }else {
-                 console.log(err)
+            
                  res.status(400).send({error:{message: 'Incorrect Password'}})
              }
           })
         }else{
-
+            
             res.status(404).send({error:{message:'Email does not exist'}})
         }
-
+    
     }).catch(err=>{
-        console.log(err)
+        
     })
 
-
+  
 
 
 }
