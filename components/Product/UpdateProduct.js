@@ -2,14 +2,17 @@ const db = require('../../database/database')
 
 module.exports = (req,res)=>{
 
+
     db.Product.findByPk(req.params.ProductId)
     .then(data=>{
         data.update({
+
             ProductName: req.body.ProductName,
-            productDesc: req.body.productDesc,
+            ProductDesc: req.body.ProductDesc,
             ProductPrice: req.body.ProductPrice,
             ProductQuant: req.body.ProductQuant,
-            ProductImg:  req.body.ProductImg
+            ProductKeywrds: req.body.ProductKeywrds
+            
         }).then(data=>{
             res.status(200).send(data)
         }).catch(err=>{
