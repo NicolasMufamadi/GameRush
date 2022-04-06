@@ -91,7 +91,7 @@
             </v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType =='Product Manager'">
+           <v-list-item v-if="user && user.data.UserType =='Product Manager'" to='/manageproducts'>
              <v-list-item-title><v-icon>mdi-archive</v-icon>Manage Products</v-list-item-title>
            </v-list-item>
 
