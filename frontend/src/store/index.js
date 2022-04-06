@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-//import userState from './modules/userState'
+import manageProduct from './modules/manageProduct'
 import  authUser from './modules/authUser'
 
 
@@ -17,8 +17,8 @@ const store = new Vuex.Store({
 
     modules:{
 
-       
-        authUser
+        authUser,
+        manageProduct
 
     },
     plugins: [createPersistedState()]
