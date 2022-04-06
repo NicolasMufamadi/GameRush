@@ -106,8 +106,8 @@
                   {{Banned ?'Are you sure you want to unban this user?': 'Are you sure you want to ban this user?'}}
               </div>
                 <div class=" d-flex justify-space-around">
-                    <v-btn @click="ban" plain color="cyan">Yes</v-btn>
-                    <v-btn @click="closeBanDialog" plain color="error" >No</v-btn>
+                    <v-btn @click="ban" plain color="error">Yes</v-btn>
+                    <v-btn @click="closeBanDialog" plain color="cyan" >No</v-btn>
                 </div>
          
         </v-card>
@@ -193,9 +193,25 @@ export default {
    }
  },
 
-beforeMount(){
+    created(){
+   
+      axios.get('http://localhost:8000/users/getusers')
+      .then(response=>{
+          if(this.user !== null){
+          this.users = response.data
+          this.Role = this.user.UserType
+        }else{
+             this.$router.push('/')
+        }
+      }).catch(err=>{
+          console.log(err)
+      })
+   
+    },
 
-if(this.user.data.UserType == 'Admin'){
+    beforeMount(){
+
+    if(this.Role == 'Admin'){
 
     axios.post('http://localhost:8000/users/checkauth',this.user,{
         headers:{
@@ -209,23 +225,10 @@ if(this.user.data.UserType == 'Admin'){
             this.$router.push('/')
             this.$store.dispatch('logout')
         })
-    }else{
-        this.$router.push('/')
     }
     
   },
 
- created(){
-
-   axios.get('http://localhost:8000/users/getusers')
-   .then(response=>{
-       this.users = response.data
-     
-   }).catch(err=>{
-       console.log(err)
-   })
-
- },
 
  methods:{
 
