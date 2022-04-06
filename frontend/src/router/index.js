@@ -11,6 +11,15 @@ import PhoneForm from '../components/UserAccount/profileforms/PhoneForm'
 import AdminPanel from '../components/Manager/AdminPanel'
 import ViewUsers from '../components/Manager/User/ViewUsers'
 import ManageProducts from '../components/Manager/Product/ManageProducts'
+import EditProduct from '../components/Product/editProduct'
+import AddProduct from '../components/Product/productStepper'
+import AddBanner from '../components/Banner/addBanner'
+import ManageBanners from '../components/Banner/manageBanners'
+import ManageCategories from '../components/Category/viewCategories'
+import AddCategory from '../components/Category/addCategory'
+import ManageCuopons from '../components/Cuopon/manageCuopons'
+import AddCuopons from '../components/Cuopon/addCuopon'
+
 
 Vue.use(VueRouter)
 
@@ -67,7 +76,7 @@ const routes = [
     },
 
     {
-        path: '/manageuser',
+        path: '/manageusers',
         name: 'Manage User',
         component: ViewUsers
     },
@@ -78,6 +87,56 @@ const routes = [
         component: ManageProducts
     },
 
+    {
+        path: '/addproduct',
+        name: 'Add Product',
+        component: AddProduct
+    },
+
+    {
+       path: '/editproduct',
+       name: 'Edit Product',
+       component: EditProduct
+    },
+
+    {
+        path: '/managebanners',
+        name: 'Manage Banners',
+        component: ManageBanners
+    },
+
+    {
+        path: '/addbanner',
+        name: 'Add Banner',
+        component: AddBanner
+    },
+
+    {
+        path: '/managecategories',
+        name: 'Manage Categories',
+        component: ManageCategories 
+    },
+
+    {
+        path: '/addcategory',
+        name: 'Add Category',
+        component: AddCategory
+    },
+
+    {
+        path: '/managecuopons',
+        name: 'Manage Cuopons',
+        component: ManageCuopons
+    },
+
+    {
+        path: '/addcuopon',
+        name: 'Add Cuopon',
+        component: AddCuopons
+
+    },
+      
+     
     {
         path: '/PageNotFound',
         name: '404',
