@@ -15,12 +15,12 @@
                 
                >
 
-               <v-icon size="24px">{{icon}}</v-icon>
+               <v-icon size="20px">{{icon}}</v-icon>
 
               </v-btn>
            </v-card-text>
                 
-           <v-card-text   class="text-lg-h6 cyan--text">
+           <v-card-text   class="text-lg-h7 cyan--text">
           
                  "Some trees flourish, others die. Some cattle grow strong, others are taken by wolves. Some men are born rich enough and dumb enough to enjoy their lives. Ain’t nothing fair." John Marston, Red Dead Redemption
 
