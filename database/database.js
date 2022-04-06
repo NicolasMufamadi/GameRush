@@ -17,6 +17,9 @@ db.sequelize = sequelize;
 
 db.User = require('../models/User')(sequelize,Sequelize);
 db.Product = require('../models/product')(sequelize,Sequelize)
+db.Banner = require('../models/banner')(sequelize,Sequelize)
+db.Category = require('../models/category')(sequelize,Sequelize)
+db.Cuopon = require('../models/coupon')(sequelize,Sequelize)
 //db.sequelize.sync({force:true});
 
 module.exports = db;

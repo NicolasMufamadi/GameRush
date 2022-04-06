@@ -15,8 +15,9 @@
    >
  <v-toolbar-title
        class="tittle"
+       
  >
-   GameRush
+  <h2 class="cyan--text"> GameRush</h2>
  </v-toolbar-title>  
 <v-spacer></v-spacer>
 
@@ -27,14 +28,14 @@
       outlined
       single-line
       hide-details
-      background-color="#1F2833"
+      background-color="cyan"
       label="Search"
       dense
       append-icon="mdi-magnify"
-      dark
+      light
       solo
       clearable
-      color="#66FCF1">
+      color="cyan">
      </v-text-field>
     </v-form>    
   <div>
@@ -42,7 +43,7 @@
            outlined  
            light 
            depressed 
-           color="#66FCF1" 
+           color="cyan" 
            class='mx-3'>
           <v-icon>mdi-gamepad</v-icon>
            Games
@@ -50,17 +51,16 @@
      <v-menu offset-y>
      <template v-slot:activator="{on,attrs}">
     <v-btn
-           outlined
-           light
+           outlined       
            v-bind="attrs"
-           v-on="on"
-           depressed
-           color="#66FCF1"
+           v-on="on"      
+           color="cyan"
            class="mx-3"
+           
     >
     <v-icon>mdi-account</v-icon>
-         My Account
-           </v-btn>
+       MyAccount
+             </v-btn>
         </template>
         <v-list>
            <v-list-item @click="registerDialog=true"   v-if="!user">
@@ -70,7 +70,7 @@
              </v-list-item-title>
              </v-list-item>
 
-             <v-list-item v-if="user">
+             <v-list-item  v-if="user" to="/myaccount">
               <v-list-item-title>
                <v-icon>mdi-account</v-icon>
                MyAccount
@@ -86,21 +86,38 @@
            </v-list-item>
            <v-list-item v-if="user">
             <v-list-item-title>
-            <v-icon>mdi-archive</v-icon>
+            <v-icon>mdi-briefcase-check</v-icon>
                 MyOrders
             </v-list-item-title>
            </v-list-item>
 
-           <v-list-item @click="logout" v-if="user">
+           <v-list-item v-if="user && user.data.UserType =='Product Manager'" to='/manageproducts'>
+             <v-list-item-title><v-icon>mdi-archive</v-icon>Manage Products</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Order Manager'">
+             <v-list-item-title><v-icon>mdi-briefcase-edit</v-icon>Manage Orders</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'">
+             <v-list-item-title><v-icon>mdi-truck-check</v-icon>Manage Deliveries</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType =='Admin'" to='/adminpanel'>
+             <v-list-item-title><v-icon>mdi-archive-cog</v-icon>Admin Panel</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item @click="logout"  v-if="user">
              <v-list-item-title><v-icon>mdi-account-arrow-down</v-icon>Logout</v-list-item-title>
            </v-list-item>
+
         </v-list>
        </v-menu>
      <v-btn  
             outlined
             light 
             depressed 
-            color="#66FCF1" 
+            color="cyan" 
             class='mx-3'>
             <v-icon>mdi-cart</v-icon>
             Cart
@@ -125,7 +142,8 @@
   max-width="500px"
   transition="dialog-transition"
   >
-  <login :done="doneLogin" />
+  <login :done="doneLogin"/>
+ 
 </v-dialog>
 
 </div>
@@ -140,11 +158,13 @@ import register from './Authentication/register.vue'
 import login from './Authentication/login.vue'
 import {mapGetters} from 'vuex'
 
+
 export default {
  name: "Header",
  components:{
     register,
-    login
+    login,
+
  },
  data: ()=>({
     loginDialog: false,
@@ -152,10 +172,14 @@ export default {
  }),
  computed:{
 
-     ...mapGetters(['user']),
+    ...mapGetters(['user'])
 
  },
+
+
  methods: {
+
+
    
     doneRegister(){
       this.registerDialog = false;
@@ -163,7 +187,18 @@ export default {
 
     doneLogin(){
       this.loginDialog = false;
+       this.$router.go('/')
+    },
+    
+         logout(){
+      // localStorage.removeItem('token')
+      //  localStorage.setItem('token',null)
+        this.$store.dispatch('logout')
+        sessionStorage.clear();
+        this.$router.push('/')
+        this.loginDialog = true
     }
+
 
  }
 }

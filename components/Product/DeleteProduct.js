@@ -1,6 +1,10 @@
 const db = require('../../database/database')
+const fs = require('fs')
+const { promisify } = require('util')
 
-module.exports = (req,res)=>{
+const unlinkAsync = promisify(fs.unlink)
+
+module.exports = async (req,res)=>{
 
 
     db.Product.findByPk(
@@ -8,6 +12,7 @@ module.exports = (req,res)=>{
     ).then(data=>{
 
         data.destroy().then(data=>{
+                         
             res.status(200).send(data)
         }).catch(err=>{
             res.status(404).send(err)
