@@ -2,7 +2,7 @@
 module.exports = (sequelize,Sequelize)=>{
 
 
-    const Product = sequelize.define("Product",{
+    var Product = sequelize.define("Product",{
 
 
         ProductId: {
@@ -15,17 +15,22 @@ module.exports = (sequelize,Sequelize)=>{
 
         ProductName:{
             type: Sequelize.STRING,
+            allowNull: false
+        },
+
+        ProductKeywrds: {
+            type: Sequelize.TEXT,
             allowNull: true
         },
 
         ProductDesc: {
             type:Sequelize.TEXT,
-            allowNull:true
+            allowNull:false
         },
 
         ProductPrice: {
             type: Sequelize.TEXT,
-            allowNull: true
+            allowNull: false
         },
 
         ProductQuant: {
@@ -33,13 +38,26 @@ module.exports = (sequelize,Sequelize)=>{
             allowNull: false
         },
 
+        ProductSold: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
+
+        ProductRatings: {
+            type: Sequelize.TEXT,
+            defaultValue: 'None'
+        },
+
+
+        ProductStatus: {
+            type: Sequelize.TEXT,
+            defaultValue: 'active'
+        },
+
         ProductImg: {
-
-            type: Sequelize.STRING,
-            allowNull: true
-
+            type: Sequelize.JSON,
+            allowNull: false
         }
-
 
     })
 
