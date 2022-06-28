@@ -11,7 +11,10 @@ module.exports = (req,res)=>{
             ProductDesc: req.body.ProductDesc,
             ProductPrice: req.body.ProductPrice,
             ProductQuant: req.body.ProductQuant,
-            ProductKeywrds: req.body.ProductKeywrds
+            ProductKeywrds: req.body.ProductKeywrds,
+            ProductCategory: req.body.ProductCategory,
+            ProductSubCategory: req.body.ProductSubCategory,
+            ProductStatus: req.body.ProductStatus
             
         }).then(data=>{
             res.status(200).send(data)
