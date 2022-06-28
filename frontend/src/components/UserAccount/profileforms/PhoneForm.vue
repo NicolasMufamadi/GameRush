@@ -64,19 +64,27 @@ export default {
 
         axios.post('http://localhost:8000/users/checkauth',this.user,{
           headers:{
-            'content-type': 'text/json',
-            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+                  'content-type': 'text/json',
+                   'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(()=>{
+        }).then((response)=>{
+                
+                if(response.data.Authorization !== 'LoggedIn'){
+                   
+                     this.$router.push('/')
+                     this.$store.dispatch('logout')
+                     
+                }
 
-         this.Id = this.user.data.UserId
-         this.Phone = this.user.data.Phone
-        }).catch(()=>{
-          
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
+        }).catch(console.log())
     
+  },
+
+  created(){
+      
+          this.Id = this.user.data.UserId
+         this.Phone = this.user.data.Phone
+
   },
 
     methods:

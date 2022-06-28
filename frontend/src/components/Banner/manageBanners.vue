@@ -33,7 +33,7 @@
                        <td>
                            <v-img 
                                  contain 
-                                 :src="banner.bannerImg.substring(1,banner.bannerImg.length-1)" 
+                                 :src="banner.bannerImg" 
                                   max-width="100" 
                                   max-height="75">
                             </v-img>
@@ -126,10 +126,14 @@ export default {
            ]
 
      }),
+
+  computed:{
+          ...mapGetters(['user'])
+ },
      
-     created(){
+created(){
        
-       if(this.user.data.UserType =='Admin'){
+       if( this.user !== null && this.user.data.UserType =='Admin'){
 
            axios.get('http://localhost:8000/banners/getbanners').then(response=>{
                
@@ -138,12 +142,6 @@ export default {
                 this.banners = response.data
             }
 
-            for(var i=0; i < this.banners.length;i++){
-                this.images= this.banners[i].bannerImg
-               this.imageLink = this.images.substring(1,this.images.length-1)
-            }
-
-
         }).catch(err=>{
             console.log(err)
         })  
@@ -151,11 +149,28 @@ export default {
         this.$router.push('/')
     }
 
-     },
+ },
 
-     computed:{
-          ...mapGetters(['user'])
-     },
+beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
+    
+  },
+
 
   methods: {
       removeBanner(banner){

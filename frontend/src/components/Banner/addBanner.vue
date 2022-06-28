@@ -85,6 +85,7 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'addBanner',
@@ -102,9 +103,23 @@ export default {
               {
 
               }
-          ]
+          ],
+          User: '',
 
     }),
+
+    computed:{
+        ...mapGetters(['user'])
+    },
+
+    beforeMount(){
+         if(this.user !== null && this.user.data.UserType == 'Admin') {
+             this.User = this.user   
+         } else{
+
+             this.$router.push('/') 
+         }
+    },
 
     mounted(){
        

@@ -25,7 +25,7 @@ module.exports = (sequelize,Sequelize)=>{
         },
 
         bannerImg: {
-            type: Sequelize.JSON,
+            type: Sequelize.TEXT,
             allowNull: false
 
         }

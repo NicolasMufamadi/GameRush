@@ -10,7 +10,7 @@
    <div class="container">
 
     <div class="mt-14  ml-4">
-      <h1>Personal Details</h1>
+      <h1 class="cyan--text">Personal Details</h1>
     </div>
 
     <div class="name pa-5  ml-4 cyan--text">
@@ -95,13 +95,12 @@ export default {
             'content-type': 'text/json',
             'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(data=>{
-          console.log(data)
-        }).catch(()=>{
-          
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
+        }).then(response=>{
+              if(response.data.Authorization !== 'LoggedIn'){
+                     this.$router.push('/')
+                     this.$store.dispatch('logout')
+              }
+        }).catch(console.log())
     
   },
 

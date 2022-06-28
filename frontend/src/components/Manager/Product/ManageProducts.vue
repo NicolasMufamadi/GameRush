@@ -4,7 +4,7 @@
             <h1>Manage Products</h1>
         </div>
          <div class="my-3">
-             <v-btn outlined color="#1F2833" @click="$router.push('/addproduct')"><v-icon>mdi-plus</v-icon>Product</v-btn>
+             <v-btn  color="cyan" @click="$router.push('/addproduct')"><v-icon>mdi-plus</v-icon>Product</v-btn>
          </div>
         <div>
             <v-text-field v-model="search" label="Search Product..." color="#1F2833"></v-text-field>
@@ -85,8 +85,8 @@ computed:{
          },
 
          {
-             text: 'Price',
-             value: 'ProductPrice'
+             text: 'Price (R)',
+             value:'ProductPrice'
          },
 
          {
@@ -121,7 +121,7 @@ computed:{
 
 created(){
 
-   if(this.user.data.UserType == 'Product Manager' || this.user.data.UserType == 'Admin'){
+   if(this.user !== null && (this.user.data.UserType == 'Product Manager' || this.user.data.UserType == 'Admin')){
 
        axios.get('http://localhost:8000/products/getproducts').then(data=>{
            if(data){
@@ -135,6 +135,26 @@ created(){
  }
 
 },
+
+beforeMount(){
+
+    axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
+    
+  },
 
 methods:{
     deleteItem(item){

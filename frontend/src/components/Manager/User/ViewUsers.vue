@@ -193,42 +193,46 @@ export default {
    }
  },
 
-    created(){
-   
-      axios.get('http://localhost:8000/users/getusers')
-      .then(response=>{
-          if(this.user !== null){
-          this.users = response.data
-          this.Role = this.user.UserType
-        }else{
-             this.$router.push('/')
-        }
-      }).catch(err=>{
-          console.log(err)
-      })
-   
-    },
+ created(){
 
-    beforeMount(){
+    if(this.user !== null && this.user.data.UserType === 'Admin'){
+        
+        axios.get('http://localhost:8000/users/getusers')
+        .then(response=>{
+            if(response){
+                this.users = response.data
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+         
+    }else{
+        
+        this.$router.push('/')
+    }
 
-    if(this.Role == 'Admin'){
 
-    axios.post('http://localhost:8000/users/checkauth',this.user,{
-        headers:{
+ },
+
+ beforeMount(){
+
+  axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
             'content-type': 'text/json',
             'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(data=>{
-            console.log(data)
-        }).catch(()=>{
-            
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
-    }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
     
   },
-
 
  methods:{
 

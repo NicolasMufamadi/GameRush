@@ -29,7 +29,7 @@ module.exports = (sequelize,Sequelize)=>{
         },
 
         ProductPrice: {
-            type: Sequelize.TEXT,
+            type: Sequelize.DECIMAL(10,2),
             allowNull: false
         },
 
@@ -51,11 +51,20 @@ module.exports = (sequelize,Sequelize)=>{
 
         ProductStatus: {
             type: Sequelize.TEXT,
-            defaultValue: 'active'
+            allowNull: false
         },
 
+        ProductSubCategory: {
+            type: Sequelize.TEXT
+        },
+        
+        ProductCategory: {
+            type: Sequelize.TEXT
+        },
+
+
         ProductImg: {
-            type: Sequelize.JSON,
+            type: Sequelize.TEXT,
             allowNull: false
         }
 

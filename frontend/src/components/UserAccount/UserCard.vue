@@ -27,14 +27,14 @@
 
          </v-list-item>
 
-       <v-list-item >
+       <v-list-item to='/myaccount/address-book'>
              
              <v-list-item-icon>
                  <v-icon>mdi-application-edit</v-icon>
              </v-list-item-icon>
 
              <v-list-item-content >
-                 <v-list-item-title>Adress Book</v-list-item-title>
+                 <v-list-item-title>Address Book</v-list-item-title>
              </v-list-item-content>
 
      </v-list-item>
@@ -50,7 +50,9 @@
 </template>
 
 <script>
-//import axios from 'axios'
+
+
+
 export default {
     name:"UserCard",
 

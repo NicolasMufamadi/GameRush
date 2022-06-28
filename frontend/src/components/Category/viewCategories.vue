@@ -98,7 +98,7 @@ export default {
           ]
     }),
 
-    created(){
+created(){
      
         axios.get('http://localhost:8000/categories/getcategories')
         .then(response=>{
@@ -111,6 +111,26 @@ export default {
         })
 
     },
+
+beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
+    
+  },
 
     methods: {
          deleteItem(item){

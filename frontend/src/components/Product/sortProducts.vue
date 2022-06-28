@@ -2,7 +2,7 @@
     <div>
           <v-menu offset-y>
                <template v-slot:activator="{on,attrs}">
-                   <v-btn v-on="on" v-bind="attrs" outlined class="mr-3"><v-icon>mdi-abacus</v-icon>Sort</v-btn>
+                   <v-btn color='cyan' v-on="on" v-bind="attrs"  class="mr-3"><v-icon>mdi-abacus</v-icon>Sort</v-btn>
             </template>
              <v-list>
                  <v-list-item   

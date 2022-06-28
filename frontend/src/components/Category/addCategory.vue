@@ -51,6 +51,7 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'addCategory',
@@ -62,8 +63,22 @@ export default {
          name_err: '',
         desc_err: '',
         subcat_err: '',
+        User: ''
 
     }),
+
+    computed: {
+         ...mapGetters(['user'])
+    },
+
+    beforeMount(){
+         if(this.user !== null && (this.user.data.UserType !== 'Admin' || this.user.data.UserType !== 'Product Manager')) {
+              this.User = this.user
+         }else{
+             this.$router.push('/') 
+         }  
+         
+    },
 
     methods: {
           

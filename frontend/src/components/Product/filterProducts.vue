@@ -1,6 +1,6 @@
 <template>
     <div>
-          <v-btn outlined><v-icon>mdi-filter-variant</v-icon>Filter</v-btn>
+          <v-btn color='cyan'><v-icon>mdi-filter-variant</v-icon>Filter</v-btn>
     </div>
 </template>
 
