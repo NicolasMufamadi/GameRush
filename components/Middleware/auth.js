@@ -15,10 +15,10 @@ function auth(req,res,next) {
                jwt.verify(token,process.env.SECRET,(err,user)=>{
             
                  if(user){
-                      res.status(200).send(user)
-                   next()
-                 }else{
-                  res.status(403).send('Token expired')
+                      res.status(200).send({Authorization: 'LoggedIn'})
+                      next()
+                 }else if(err){
+                     res.send({Authorization: 'LoggedOut'})
                  }
                })
           }
