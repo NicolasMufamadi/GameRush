@@ -20,6 +20,10 @@ db.Product = require('../models/product')(sequelize,Sequelize)
 db.Banner = require('../models/banner')(sequelize,Sequelize)
 db.Category = require('../models/category')(sequelize,Sequelize)
 db.Cuopon = require('../models/coupon')(sequelize,Sequelize)
-//db.sequelize.sync({force:true});
+db.Cart = require('../models/cart')(sequelize,Sequelize)
+db.AddressBook = require('../models/addressBook')(sequelize,Sequelize)
+db.Order = require('../models/order')(sequelize,Sequelize)
+
+//db.sequelize.sync({force:true})
 
 module.exports = db;
