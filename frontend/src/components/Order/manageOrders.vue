@@ -16,7 +16,7 @@
               <v-btn icon @click="editOrder(item)">
                  <v-icon color="teal">mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon>
+              <v-btn icon @click="viewShippingAddress(item)">
                  <v-icon color="blue">mdi-truck-delivery</v-icon>
               </v-btn>
           </template>
@@ -33,6 +33,27 @@
         <editOrder :closeOrderDialog="closeEditDialog" :Id="orderId"/>
 
       </v-dialog>
+
+      <v-dialog
+        v-model="orderDetailsDialog"
+        transition="dialog-top-transition"
+        max-width="500px"
+      >
+       <orderDetails :date="date" :deliveryDate="deliveryDate"
+                     :deliveryFee="deliveryFee" :nItems="nItems"
+                     :total="total" />
+      </v-dialog>
+
+      <v-dialog
+         v-model="orderShippingAddressDialog"
+         transition="dialog-top-transition"
+         max-width="500px"
+      >
+        <orderShippingAddress :city="city" :code="code"
+                              :recipientName="recipientName"
+                              :building="building" :phone="phone"
+                              :streetAddress="streetAddress" :suburb="suburb" />
+      </v-dialog>
         
     </div>
 </template>
@@ -41,19 +62,38 @@
 
 import axios from 'axios'
 import editOrder from './editOrder.vue'
+import orderDetails from './orderDetails.vue'
+import orderShippingAddress from './orderShippingAddress.vue'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'manageOrders',
     components: {
-         editOrder
+         editOrder,
+         orderDetails,
+         orderShippingAddress
     },
     data: ()=> ({
+
         Orders: [],
         months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
         date: '',
         orderDialog: false,
-        orderId: '' 
+        orderDetailsDialog: false,
+        orderShippingAddressDialog: false,
+        orderId: '',
+        deliveryDate: '',
+        nItems: '',
+        total: '',
+        deliveryFee: '',
+        city: '',
+        code: '',
+        building: '',
+        phone: '',
+        streetAddress: '',
+        suburb: '',
+        recipientName: ''
+
     }),
 
     computed: {
@@ -130,6 +170,32 @@ export default {
 
 
     methods: {
+
+        viewOrder(order){
+           
+           this.orderDetailsDialog = true 
+
+           this.date = order.CreatedOn
+           this.deliveryDate = order.DeliveryDate
+           this.total = order.OrderTotal
+           this.nItems = order.TotalItems
+           this.deliveryFee = order.DeliveryFee
+
+        },
+
+        viewShippingAddress(order){
+           
+            this.orderShippingAddressDialog = true 
+
+            this.recipientName = order.RecipientName
+            this.streetAddress = order.StreetAddress
+            this.city = order.City
+            this.suburb = order.Suburb
+            this.code = order.PostalCode
+            this.phone = order.PhoneNumber
+
+        },
+
         editOrder(item){
             
             this.orderDialog = true 
