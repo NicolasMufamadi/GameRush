@@ -28,6 +28,7 @@ import CheckOut from '../components/Cart/CheckOut/checkout'
 import Order from '../components/Order/order'
 import ViewOrders from '../components/Order/viewOrders'
 import manageOrders from '../components/Order/manageOrders'
+import manageReviews from '../components/Reviews/manageReviews'
 
 Vue.use(VueRouter)
 
@@ -198,6 +199,12 @@ const routes = [
         path: '/manageorders',
         name: 'Manage Orders',
         component: manageOrders
+    },
+
+    {
+        path: '/managereviews',
+        name: 'Manage Reviews',
+        component: manageReviews
     },
 
     
