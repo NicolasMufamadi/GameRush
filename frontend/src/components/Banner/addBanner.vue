@@ -125,7 +125,7 @@ export default {
        
        this.$refs.calendar.checkChange()
        this.focus = this.$refs.calendar._data.times.today.date
-       console.log(this.$refs.calendar)
+       
        
     },
 
