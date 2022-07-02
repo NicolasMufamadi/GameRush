@@ -2,7 +2,7 @@
     <div >
 
       <div class="pl-3 pb-2 cyan--text ">
-        <h1>Admin Panel</h1>
+        <h1 class="mt-5 mb-10">Admin Panel</h1>
       </div>
 
       <div class="d-flex flex-wrap justify-space-around">
@@ -44,7 +44,8 @@
                 elevation=1 
                 color="cyan"
                 height="150" 
-                width="200">
+                width="200"
+                @click="manageReviews">
              <v-icon class="pl-13 pt-2" size="100">mdi-star</v-icon>
             <div class="pl-12">
                  <p class="pl-8 pb-3">Reviews</p>
@@ -205,6 +206,10 @@ export default {
 
         manageOrders(){
            this.$router.push('/manageorders')
+        },
+
+        manageReviews(){
+            this.$router.push('/managereviews')
         }
 
 
