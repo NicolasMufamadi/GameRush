@@ -1,23 +1,41 @@
 <template>
     <div>
         <h1 class="cyan--text">View Orders</h1>
-        <v-btn color="cyan"><v-icon>mdi-sort</v-icon>Sort Orders</v-btn>
+        
+        <div class="d-flex justify-space-between">
+          <v-btn v-if="Orders.length > 0" color="cyan"><v-icon>mdi-sort</v-icon>Sort Orders</v-btn>
+        </div>
       
        <v-card 
+        
          class=" mt-5" 
          v-for="(order) in Orders" :key="order.OrderId"
          @click="viewOrder(order)"  
        >
        <v-card-title>Order: {{order.OrderNumber}} - {{order.OrderStatus}}</v-card-title>
         
-        <v-card-text>
-           <h3>Items: {{order.TotalItems}}</h3>
-           <h3>Date Placed: {{date}}</h3>
-           <h3>Delivery Date: {{order.DeliveryDate}}</h3>
-           <h3>Total Amount: R {{order.OrderTotal}}</h3>
-        </v-card-text>
+        <div class="d-flex justif-space-between">
+
+           <v-card-text>
+             <h3>Items: {{order.TotalItems}}</h3>
+             <h3>Date Placed: {{order.CreatedOn}}</h3>
+             <h3>Delivery Date: {{order.DeliveryDate}}</h3>
+             <h3>Total Amount: R {{order.OrderTotal}}</h3>
+          </v-card-text>
+ 
+           <v-btn v-if="order.OrderStatus === 'Delivered' " class="cyan mr-4"  @click="review = true"><v-icon color="yellow">mdi-star</v-icon>Reviews</v-btn> 
+        
+        </div>
 
        </v-card>
+
+    <div v-if="Orders.length == 0" class="d-flex justify-center">
+
+     <v-card max-width="200px" class="card teal">
+        <v-card-text class="black--text">No orders available</v-card-text>
+    </v-card>
+   
+   </div>
       
    <template>
      <v-row justify="center">
@@ -39,37 +57,34 @@
                     <v-btn
                       icon
                       color="cyan"
-                      @click="dialog = false"
+                      @click="closeDialog()"
                     > 
                      <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
                
-                <v-card-title><h1 class="ml-3 cyan--text">Order: {{orderNumber}} - {{orderStatus}}</h1></v-card-title>
+               <h1 class="ml-3 cyan--text text-center">Order: {{orderNumber}} - {{orderStatus}}</h1>
 
                 <v-card-text>
                   <div class="d-flex justify-space-between">     
+                  
                   <div class="mt-5 ml-3">
-                     <h1 class="teal--text mb-2">Order Details</h1>
-                     <h3>Items: {{nItems}}</h3>
-                     <h3 v-if="deliveryFee == 'Free'">Delivery Fee: Free Delivery</h3>
-                     <h3 v-else>Delivery Fee: R {{deliveryFee}}</h3>
-                     <h3>Total Amount: R {{total}}</h3>
-                     <h3>Placed: {{date}}</h3>
-                     <h3>Delivery: {{deliveryDate}}</h3>
+                       <orderDetails :date="date" :deliveryFee="deliveryFee" 
+                                     :deliveryDate="deliveryDate" :nItems="nItems"
+                                     :total="total"/>   
                    </div>
-                 <div class="mt-5 ml-3">
-                       <h1 class="teal--text">Shipping Address</h1>
-                       <h3>Recipient Name: {{recipientName}}</h3>
-                       <h3>Phone Number: {{phone}}</h3>
-                       <h3>Street Address: {{streetAddress}}</h3>
-                       <h3 v-if="building">Near Building:  {{}}</h3>
-                       <h3>City:  {{city}}</h3>
-                       <h3>Suburb: {{suburb}}, {{code}}</h3>
+
+                  <div class="mt-5 ml-3">
+                      <orderShippingAddress :suburb="suburb" :city="city" 
+                                             :code="code" 
+                                             :phone="phone" 
+                                            :streetAddress="streetAddress" :recipientName="recipientName" />
                   </div>
-                  </div>
-                   <h1 class="cyan--text mt-3 ml-3">Order Products</h1>
+                 
+                 </div>
+                  
+                  <h1 class="cyan--text mt-3 ml-3">Order Products</h1>
                       <v-list>
                          <v-list-item-group v-model="model">
                              <v-list-item v-for="product in Products" :key="product.ProductId" >
@@ -83,11 +98,21 @@
                                       max-width="150px"
                                  >
                                  </v-img>
-                                  <div class="ml-2">
-                                     <h4 class="teal--text">Product Price: R{{product.ProductPrice}}</h4>
-                                     <h4 class="teal--text">Product Name: {{product.ProductName}}</h4> 
-                                     <h4 class="teal--text">Product Quantity: {{product.itemsInCart}}</h4>
-                                  </div>
+                                    
+                                    <div class="buttons">
+                                       <v-btn v-if="review" class="mr-2" outlined @click="reviewProduct(product)">Write Review</v-btn>
+                                       <v-btn  v-if="review" class="ml-2" outlined @click="viewReview(product)">View Review</v-btn>
+                                    </div>
+                                    
+                                    <div>
+
+                                      <h4 class="ml-2 teal--text">Product Price: R{{product.ProductPrice}}</h4>
+                                      <h4 class="ml-2 teal--text">Product Name: {{product.ProductName}}</h4> 
+                                      <h4 class="ml-2 teal--text">Product Quantity: {{product.itemsInCart}}</h4>
+
+                                    </div>
+                              
+
                                 </div>
 
                                 </v-list-item-content>
@@ -100,20 +125,44 @@
         </v-dialog>
      </v-row>
   </template>
-    </div>
+
+
+    <v-dialog
+        v-model="reviewDialog"
+        transition="dialog-top-transition"
+        persistent 
+    >
+         <reviewProduct :closeReviewDialog="close" :Id="productId" :pName="productName"/>
+    </v-dialog>
+
+    <v-dialog
+       v-model="viewReviewDialog"
+       transition="dialog-top-transition"
+       persistent
+    >
+      <viewReview :Id= "productId" :closeDialog="close"/>
+    </v-dialog>
+
+  </div>
 </template>
 
 <script>
 
 import axios from 'axios'
 import { mapGetters } from 'vuex'
-//import viewOrder from './viewOrder.vue'
+import orderShippingAddress from './orderShippingAddress.vue'
+import orderDetails from './orderDetails.vue'
+import reviewProduct from '../Reviews/productReview.vue'
+import viewReview from '../Reviews/viewReview.vue'
 
 export default {
  
   name: 'ViewOrders',
   components: {
-    //  viewOrder
+      orderShippingAddress,
+      orderDetails,
+      reviewProduct,
+      viewReview
   },
   data: ()=>({
 
@@ -136,7 +185,13 @@ export default {
       deliveryDate: '',
       deliveryFee: '',
       phone: '',
-      model: 1
+      model: 1,
+      deliveredProducts: [],
+      review: false,
+      reviewDialog: false,
+      viewReviewDialog: false,
+      productId: '',
+      productName: ''  
 
   }),
 
@@ -168,16 +223,13 @@ export default {
      
      if(this.user !== null){
         
+        this.deliveredProducts = []
+
         axios.get('http://localhost:8000/orders/',{params: {UserId: this.user.data.UserId}})
         .then(response=>{
          
-              this.Orders = response.data     
+              this.Orders = response.data    
               console.log(this.Orders)
-              for(let i = 0; i < this.Orders.length; i++){
-                 let orderDate = this.Orders[i].createdAt 
-                  let newDate = new Date(orderDate)
-                  this.date = newDate.getDate() +'-'+ this.months[newDate.getMonth()] +'-'+ newDate.getFullYear()
-              }
 
       }).catch(()=>console.log())
 
@@ -187,7 +239,7 @@ export default {
 
  methods: {
       viewOrder(order){
-        console.log(order)
+       
          this.dialog = true 
 
          this.orderNumber = order.OrderNumber
@@ -203,8 +255,45 @@ export default {
          this.deliveryFee = order.DeliveryFee
          this.orderStatus = order.OrderStatus
          this.phone = order.PhoneNumber
+         this.date = order.CreatedOn
+         //this.building = order.
+        console.log(this.recipientName)
+      },
+
+    reviewProduct(product){
+         
+         this.reviewDialog = true
+         this.productId = product.ProductId
+         this.productName = product.ProductName
+
+    },
+
+    viewReview(product){
+       
+       this.viewReviewDialog = true 
+       this.productId = product.ProductId 
+
+    },
+
+    closeDialog(){
         
-      }
+        this.dialog = false
+        if(this.review == true){
+            this.review = false 
+        }
+
+    },
+
+    close(){
+        
+        if(this.reviewDialog){
+           this.reviewDialog = false
+        }else{
+          this.viewReviewDialog = false 
+        }
+   
+   }
+
  }
 
 
@@ -219,4 +308,12 @@ export default {
    border: 1px solid grey;
    
 }
+
+.buttons{
+  position: absolute;
+  left: 60rem;
+  bottom: 4.5rem;
+}
+
+
 </style>
