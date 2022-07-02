@@ -235,6 +235,7 @@ export default {
        this.streetAddress = address.StreetAdress
        this.city = address.City 
        this.postalCode = address.PostalCode 
+      
    }, 
    
   checkOut(){
