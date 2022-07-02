@@ -36,8 +36,35 @@
                 <v-btn class="mb-2 ml-2 cyan" @click="submitChanges">submit</v-btn>
                 <v-btn class="mb-2 mr-2 red" @click="closeDialog">cancel</v-btn>
             </div>
+
+            <v-dialog
+              v-if="Status === 'Schedule Delivery'"
+              v-model="calendarDialog"
+              transition="dialog-top-transition"
+              max-width="500px"
+            >
+
+            <v-card>
+                <v-card-title>Pick a new date</v-card-title>
+                <v-card-text>
+                          <v-sheet height="200">
+                               <v-calendar 
+                                   :type="type"
+                                   v-model="focus"
+                                   ref="calendar"
+                                   @click:date="viewDay"
+                                >
+                                   
+                               </v-calendar>
+                          </v-sheet>
+                </v-card-text>
+            </v-card>
+
+            </v-dialog>
    
     </v-card>    
+  
+
 </template>
 
 <script>
@@ -49,14 +76,17 @@ export default {
     props: ['closeOrderDialog','Id'],
     data: ()=> ({
         
-        Status: null
+        Status: null,
+        focus: ''
 
     }),
 
-    created(){
-        
-        console.log(this.Status)
-
+    mounted(){
+       
+       this.$refs.calendar.checkChange()
+       this.focus = this.$refs.calendar._data.times.today.date
+     
+       
     },
 
 
