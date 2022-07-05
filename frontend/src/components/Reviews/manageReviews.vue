@@ -103,6 +103,27 @@ export default {
   },
 
 
+  beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
+    
+  },
+
+
   async created(){
       
       let response = await axios.get('http://localhost:8000/reviews/getall')
