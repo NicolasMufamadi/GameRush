@@ -36,6 +36,10 @@ module.exports = (sequelize,Sequelize)=>{
        type: Sequelize.TEXT
     },
 
+    NearBuilding: {
+      type: Sequelize.TEXT
+    },
+
      StreetAddress: {
          type: Sequelize.STRING,
      },

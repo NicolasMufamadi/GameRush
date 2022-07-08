@@ -25,6 +25,10 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.STRING
         },
 
+        ReviewedOn: {
+           type: Sequelize.TEXT 
+        },
+
         Comment:{
            type: Sequelize.STRING      
         },

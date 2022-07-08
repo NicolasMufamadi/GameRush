@@ -44,8 +44,7 @@ module.exports = (sequelize,Sequelize)=>{
         },
 
         ProductRatings: {
-            type: Sequelize.TEXT,
-            defaultValue: 'None'
+            type: Sequelize.DECIMAL,
         },
 
 
