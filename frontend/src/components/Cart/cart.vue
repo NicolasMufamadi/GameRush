@@ -6,7 +6,7 @@
 
     <v-card 
         v-if="user== null || Cart.length == 0"
-        class="mt-5 pt-10"  
+        class="mt-10 pt-10"  
         color="#F5F5F5"
           
     >
@@ -36,7 +36,7 @@
             </div>
 
             <div class="mb-2 d-flex justify-center">
-              <v-btn class="cyan white--text" to="/">Continue Shopping</v-btn>
+              <v-btn class="ml-15 cyan white--text" to="/">Continue Shopping</v-btn>
             </div>
         
 
@@ -93,11 +93,10 @@
             <v-btn color="cyan" small icon @click="deleteItem(product.ProductId)"><v-icon >mdi-delete</v-icon> </v-btn>
         </div>
  
-  </div>
+     </div>
+ 
+    </v-card>
 
-
-    
- </v-card>
    
    <div v-if="user !==null && Cart.length > 0" class="d-flex justify-center">
         <v-card width="400px" color="cyan">
@@ -267,11 +266,12 @@ export default {
 } 
 </script>
 
-<style scoped>
+<style >
 .items{
     position: absolute;
     bottom:25px;
 }
+
 
 .productname{
   position: absolute;
