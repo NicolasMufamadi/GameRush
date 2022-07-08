@@ -131,6 +131,7 @@
         v-model="reviewDialog"
         transition="dialog-top-transition"
         persistent 
+        max-width="500px"
     >
          <reviewProduct :closeReviewDialog="close" :Id="productId" :pName="productName"/>
     </v-dialog>
@@ -139,6 +140,7 @@
        v-model="viewReviewDialog"
        transition="dialog-top-transition"
        persistent
+       max-width="500px"
     >
       <viewReview :Id= "productId" :closeDialog="close"/>
     </v-dialog>
