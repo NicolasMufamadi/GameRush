@@ -5,7 +5,7 @@
           <h3 class="ml-2">Recipient Name: {{recipientName}}</h3>
           <h3 class="ml-2">Phone Number: {{phone}}</h3>
           <h3 class="ml-2">Street Address: {{streetAddress}}</h3>
-        
+          <h3 class="ml-2" v-if="building">{{building}}</h3>
           <h3 class="ml-2">City:  {{city}}</h3>
           <h3 class="ml-2">Suburb: {{suburb}}, {{code}}</h3>
 
@@ -16,7 +16,7 @@
 export default {
 
     name: 'orderShippingAddress',
-    props: ['recipientName','phone','streetAddress','Near Building','city','suburb','code']
+    props: ['recipientName','phone','streetAddress','Near Building','city','suburb','code','building']
 
 }
 </script>
