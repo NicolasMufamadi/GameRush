@@ -3,8 +3,10 @@
          
          <v-card>
              <v-card-title class="cyan--text">
-                 Description
+                Product Description
              </v-card-title>
+
+             <v-divider></v-divider>
 
              <v-card-text class="black--text">
                  {{product.ProductDesc}}
