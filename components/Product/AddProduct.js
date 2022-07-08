@@ -16,8 +16,9 @@ module.exports = (req,res)=>{
        ProductQuant:   req.body.ProductQuant,
        ProductCategory: req.body.ProductCategory,
        ProductSubCategory: req.body.ProductSubCategory,
+       ProductRatings: 0,
        ProductStatus: 'In-Stock',
-       ProductImg:     path
+       ProductImg:     path,
 
    }).then(data=>{
      // console.log(req.files)        
