@@ -19,12 +19,11 @@
                
                <div class="cyan--text mt-16 ml-8">
                    <h1>{{product.ProductName}}</h1>
-                   <v-divider></v-divider>
-                   <div class="mt-2 d-flex-inline">
-                      <v-btn disabled dark plain>Category</v-btn>
-                      <li class="ml-8">{{product.ProductCategory}}</li>
-                      <v-btn disabled dark plain>SubCategory</v-btn>
-                      <li class="ml-8">{{product.ProductSubCategory}}</li>
+                   <v-divider class="white"></v-divider>
+                   <div class="mt-2">
+                        <h4 class="grey--text">Category:<span class="cyan--text"> {{product.ProductCategory}} </span></h4>
+                        <h4 class="grey--text">SubCategory:<span class="cyan--text"> {{product.ProductSubCategory}} </span></h4>
+                        <h4 class="cyan--text">{{product.ProductStatus}}</h4>
                    </div>
    
                    </div>
@@ -55,18 +54,29 @@
                                Add to Cart
                            </v-btn>
                   </v-card-actions>
+                  
+                    <v-rating
+                       v-if="product.ProductRatings > 0"
+                       v-model="product.ProductRatings"
+                       color="yellow"
+                       background-color="white"
+                       empty-icon="$ratingFull"
+                       half-increments
+                       class="text-center"
+                     
+                    >
 
-                  <h4 class="mt-3 cyan--text ml-2">Ratings</h4>
-                  <span></span>
+                    </v-rating>
+                
+                   <h4 v-else class="mt-3 cyan--text text-center">No reviews</h4>
 
-
-              <v-btn 
+            <v-btn 
                   class="mt-5 ml-16"
                   outlined 
                   color='cyan'>
-                  <v-icon>mdi-pencil</v-icon>
+                <v-icon>mdi-pencil</v-icon>
                   Review
-              </v-btn>
+            </v-btn>
               
              </v-card>
 
@@ -75,6 +85,10 @@
 
           <productDescription/>
 
+      </div>
+
+      <div>
+           <productReviews />
       </div>
 
       <v-dialog v-model="login"
@@ -91,6 +105,7 @@
 import { mapGetters } from 'vuex'
 import productDescription from './productDescription.vue'
 import Login from '../Authentication/login.vue'
+import productReviews from './productReviews.vue'
 import axios from 'axios'
 
 export default {
@@ -98,7 +113,8 @@ export default {
       name: 'viewProduct',
       components: {
             productDescription,
-            Login
+            productReviews,
+            Login,
       },
       data: ()=>({
            
@@ -109,7 +125,8 @@ export default {
            Quantity: 1,
            CartTotal: '',
            login: false,
-           authorization: ''
+           authorization: '',
+          
  
            
       }),
