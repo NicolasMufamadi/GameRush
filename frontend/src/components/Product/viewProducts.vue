@@ -37,7 +37,7 @@
                  <div class="ml-2 cyan--text">
                      <h4>R {{product.ProductPrice}}</h4>
                      <h4>{{product.ProductStatus}}</h4>
-                     <h6><v-icon small color='yellow'>mdi-star</v-icon></h6>
+                     <h6><v-icon x-small color='yellow'>mdi-star</v-icon>{{'('+product.ProductRatings+')'}}</h6>
                  </div>
 
                   
