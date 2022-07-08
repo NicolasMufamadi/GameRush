@@ -5,35 +5,78 @@
         
         <div>
             <v-data-table
-              :items="reviews"
+              :items="pendingReviews"
               :headers="headers"
+               v-if="pendingReviews.length > 0"
             >
 
-            <template v-slot:[`item.actions`]="{item}">
+            <template  v-slot:[`item.actions`]="{item}">
               
-              <v-menu offset-y>
-                <template v-slot:activator="{on,attrs}">
-                    
-                    <v-btn icon v-on="on" v-bind="attrs" @click="editItem(item)">
-                      <v-icon>mdi-dots-vertical</v-icon>    
-                    </v-btn> 
-                
-                </template>
-                
-                <v-list>
-                    <v-list-item>
-                        <v-list-item-icon>mdi-window-close</v-list-item-icon>
-                        <v-list-content>
-                            <v-list-item-title>Disapprove</v-list-item-title>
-                        </v-list-content>
-                    </v-list-item>
-                </v-list>
-
-               </v-menu>
+                <v-btn icon @click="approveReview(item)"><v-icon  color='cyan'>mdi-check-circle</v-icon></v-btn>
+                <v-btn icon @click="disapproveReview(item)"><v-icon color="red">mdi-alpha-x-circle</v-icon></v-btn>
             
             </template>
 
+
             </v-data-table> 
+        </div>
+
+        <v-dialog
+               v-model="aproveDialog"
+               transition="dialog-bottom-transition"
+               max-width="500px"
+        >
+          <approveReview :close="closeApproveDialog" :review="review" />
+        </v-dialog>
+
+        <v-dialog
+              v-model="disapproveDialog"
+              transition="dialog-bottom-transition"
+              max-width="500px"
+        >
+          <disapproveReview  :review="review" :close="closeDisapproveDialog"/>
+        </v-dialog>
+
+    <div>
+       <v-card 
+        v-if="pendingReviews.length == 0"
+        class="mt-15 pt-10"  
+        color="#F5F5F5"
+          
+       >
+        <v-card-text>
+            <div class="d-flex justify-center">
+         
+             <div>
+             
+
+                   <v-btn 
+                   class="mb-2 ml-10"
+                   x-large
+                   outlined
+                   fab
+                   color="cyan"
+               >
+                <v-icon>mdi-shield-check</v-icon>   
+                 <span class="items">0</span>
+                    
+               </v-btn>
+    
+               
+               <p>All reviews are reviewed</p>
+             
+             </div>
+       
+            </div>
+
+            <div class="mb-2 d-flex justify-center">
+              <v-btn class="cyan white--text" to="/adminpanel">Admin Panel</v-btn>
+            </div>
+        
+
+        </v-card-text>
+
+    </v-card>
         </div>
     
     </div>
@@ -43,13 +86,24 @@
 
 import axios from 'axios'
 import { mapGetters } from 'vuex'
-
+import approveReview from './approveReview.vue'
+import disapproveReview from './disapproveReview.vue'
 
 export default {
+  
   name: 'manageReviews',
+  
+  components: {
+    approveReview,
+    disapproveReview
+  },
+
   data: ()=> ({
      
-     reviews: []
+     review: '',
+     aproveDialog: false,
+     disapproveDialog: '',
+     pendingReviews: [],
 
   }),
 
@@ -61,10 +115,10 @@ export default {
         return [
             
                 {
-                    text: 'ReviewId',
+                    text: 'Reviewer',
                     align: 'start',
                     sortable: false,
-                    value: 'ReviewId'
+                    value: 'Name'
                 },
 
                 {
@@ -127,7 +181,34 @@ export default {
   async created(){
       
       let response = await axios.get('http://localhost:8000/reviews/getall')
-      this.reviews = response.data        
+      let reviews = response.data   
+      console.log(reviews)
+      this.pendingReviews = reviews.filter(review => review.Status == 'Pending')
+      console.log(this.pendingReviews)
+
+  },  
+
+
+  methods: {
+   
+      approveReview(item){
+           this.aproveDialog = true
+           this.review = item
+      },
+
+      disapproveReview(item){
+          this.disapproveDialog = true
+          this.review = item  
+      },
+
+      closeApproveDialog(){
+        this.aproveDialog = false 
+      },
+
+      closeDisapproveDialog(){
+          this.disapproveDialog = false 
+      }
+     
 
   }
 
@@ -137,5 +218,10 @@ export default {
 </script>
 
 <style>
-
+.no_reviews{
+   display: flex;
+   justify-content: center;
+   margin: auto;
+   
+}
 </style>
