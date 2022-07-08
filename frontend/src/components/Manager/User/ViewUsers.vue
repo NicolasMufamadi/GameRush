@@ -250,8 +250,6 @@ export default {
        this.Email = item.Email
        this.selected = item.UserType
        this.Banned = item.IsBanned
-       console.log(this.selected)
-
    },
 
    updateRole(){
@@ -289,15 +287,18 @@ export default {
    
    ban(){
 
-    
         axios.put('http://localhost:8000/users/updateuser/ban/',{
             Email: this.Email,
             IsBanned: !this.Banned
-        }).then(()=>{
-          //  console.log(response)
+        }).then((response)=>{
+           if(response !== 'Admin'){
             this.$router.go('/manageuser')
             this.closeBanDialog()
-        })
+           }else{
+              console.log('you cannot ban this user')
+           }   
+        }).catch((console.log()))
+    
 
    },
 
