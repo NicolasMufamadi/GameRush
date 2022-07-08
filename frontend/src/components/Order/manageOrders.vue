@@ -51,7 +51,7 @@
       >
         <orderShippingAddress :city="city" :code="code"
                               :recipientName="recipientName"
-                              :building="building" :phone="phone"
+                              :building="nearBuilding" :phone="phone"
                               :streetAddress="streetAddress" :suburb="suburb" />
       </v-dialog>
         
@@ -92,7 +92,8 @@ export default {
         phone: '',
         streetAddress: '',
         suburb: '',
-        recipientName: ''
+        recipientName: '',
+        nearBuilding: ''
 
     }),
 
@@ -210,6 +211,7 @@ beforeMount(){
 
             this.recipientName = order.RecipientName
             this.streetAddress = order.StreetAddress
+            this.nearBuilding = order.NearBuilding
             this.city = order.City
             this.suburb = order.Suburb
             this.code = order.PostalCode
