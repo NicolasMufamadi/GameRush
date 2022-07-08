@@ -1,6 +1,6 @@
 <template>
  
- <v-card max-width="500px" >
+ <v-card >
          
   <h1 class="cyan--text text-center">Review product</h1>
   
