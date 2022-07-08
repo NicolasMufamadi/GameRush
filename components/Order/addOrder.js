@@ -19,6 +19,7 @@ module.exports = (req,res)=>{
       OrderStatus: orderStatus,
       RecipientName: req.body.RecipientName,
       PhoneNumber: req.body.PhoneNumber,
+      NearBuilding: req.body.NearBuilding,
       StreetAddress: req.body.StreetAddress,
       PostalCode: req.body.PostalCode,
       City: req.body.City,
