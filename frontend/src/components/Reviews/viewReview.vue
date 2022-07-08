@@ -1,23 +1,23 @@
 <template>
   <div>
    
-  <v-card max-width="500px" >
+  <v-card >
          
    <h1 class="cyan--text text-center">Review product</h1>
   
     <v-card-text>
       <span>Status:</span>
 
-      <v-chip v-if="status == 'Pending'" class="ma-2 grey">
+      <v-chip v-if="status === 'Approved'"  class="ma-2 teal">
+           {{status}}
+      </v-chip>
+
+      <v-chip v-else-if="status === 'Disapproved'" class="ma-2 red">
            {{status}}
       </v-chip>
       
-      <v-chip
-        v-else
-        class="status"
-        :class="'Approved'? 'green' : 'red'"
-      >
-
+      <v-chip v-else class="ma-2 grey">
+           {{status}}
       </v-chip>
        
      <v-text-field
@@ -96,6 +96,7 @@ export default {
        
        close(){
            this.closeDialog()
+           this.$router.go('/')
        }
 
    }
