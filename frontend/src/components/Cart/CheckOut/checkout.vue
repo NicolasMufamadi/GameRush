@@ -87,9 +87,23 @@
       <v-stepper-content step="2">
           <v-card>
               <h2 class="cyan--text">Add Cuopon</h2>
+              <v-row>
+                <v-col cols="6">
+                  <v-text-field
+                         v-model="cuopon"
+                         color="cyan"
+                         label="Add cuopon"
+                         filled
+                         :error="cuopon_err ? true : false"
+                         :error-messages="cuopon_err" 
+                  >
+
+                  </v-text-field>
+                </v-col>
+              </v-row>
              <div class="d-flex justify-space-between">
                 <v-btn class="ml-2 teal white--text" @click="checkoutStepper=1">Back</v-btn>
-                <v-btn class="mr-2 cyan white--text" @click="checkoutStepper=3">Next</v-btn>
+                <v-btn class="mr-2 cyan white--text" @click="cuoponStepper">Next</v-btn>
               </div>
           </v-card>
       </v-stepper-content>
@@ -169,8 +183,10 @@ export default {
       addressErr: false,
       errMessage: '',
       phoneNumber: '',
+      building: '',
+      cuopon: '',
+      cuopon_err: ''
 
-      
   }),
  
   computed: {
@@ -233,6 +249,7 @@ export default {
        this.phoneNumber = address.RecipientMobile
        this.suburb = address.Suburb 
        this.streetAddress = address.StreetAdress
+       this.building = address.GeographicalFeature
        this.city = address.City 
        this.postalCode = address.PostalCode 
       
@@ -247,6 +264,7 @@ export default {
          PhoneNumber: this.phoneNumber,
          StreetAddress: this.streetAddress,
          PostalCode: this.postalCode,
+         NearBuilding: this.building,
          City: this.city,
          Suburb: this.suburb,
          TotalItems: this.nItems,
@@ -272,6 +290,21 @@ export default {
 
   doneLogin(){
     this.loginDialog = false
+  },
+
+  cuoponStepper(){
+     let valid = true 
+     if(this.cuopon !== ''){
+        valid = false
+        this.cuopon_err = 'Cuopon not found'
+     }else{
+       valid = true
+       this.cuopon_err = null 
+       this.checkoutStepper = 3
+     }
+
+     return valid 
+
   }
 
  }

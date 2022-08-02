@@ -93,7 +93,7 @@ export default {
         streetAddress: '',
         suburb: '',
         recipientName: '',
-        nearBuilding: ''
+        nearBuilding: '',
 
     }),
 
@@ -169,24 +169,20 @@ beforeMount(){
         }).then((response)=>{
               
               if(response.data.Authorization !== 'LoggedIn'){
-                   
-                    this.$router.push('/')
                     this.$store.dispatch('logout')
-              
               }
 
         }).catch(console.log())
     
   },
 
-   async created(){
-      if(this.user !== null){
+    async created(){
+      if(this.user != null && (this.user.data.UserType != 'Customer') ){
           let orders = await axios.get('http://localhost:8000/orders/getorders')
           this.Orders = orders.data
+          console.log(this.Orders)
       }else{
-         
          this.$router.push('/')
-           
       }
     },
 
@@ -227,7 +223,9 @@ beforeMount(){
         },
 
         closeEditDialog(){
-            this.orderDialog = false 
+    
+                this.orderDialog = false 
+
         }
     }
 }

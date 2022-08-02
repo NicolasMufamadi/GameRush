@@ -224,10 +224,7 @@ export default {
         }).then((response)=>{
               
               if(response.data.Authorization !== 'LoggedIn'){
-                   
-                    this.$router.push('/')
                     this.$store.dispatch('logout')
-              
               }
 
         }).catch(console.log())

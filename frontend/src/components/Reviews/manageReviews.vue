@@ -179,12 +179,18 @@ export default {
 
 
   async created(){
-      
+    
+    if(this.user != null && this.user.data.UserType == 'Admin'){
+       
       let response = await axios.get('http://localhost:8000/reviews/getall')
       let reviews = response.data   
       console.log(reviews)
       this.pendingReviews = reviews.filter(review => review.Status == 'Pending')
       console.log(this.pendingReviews)
+
+    }else{
+       this.$router.push('/')
+    } 
 
   },  
 

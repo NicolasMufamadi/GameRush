@@ -16,7 +16,8 @@ module.exports = (sequelize,Sequelize)=>{
 
         subCategory: {
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: false,
+            unique: true 
         },
 
         categoryDesc: {
@@ -26,7 +27,16 @@ module.exports = (sequelize,Sequelize)=>{
 
 
 
-    })
+    },
+
+    {
+        indexes: [
+          {
+            unique: true,
+            fields: ['subCategory']
+         }
+       ]
+  });
 
     return category
 

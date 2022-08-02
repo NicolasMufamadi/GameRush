@@ -2,13 +2,14 @@
     <div class="pa">
         <viewBanners />
 
-      
-            <h1 class="mt-1 cyan--text">Our Latest Games</h1>
-
             <div>
+                <h1 class="mt-1 cyan--text">Our Latest Games</h1>
                 <viewProducts />
             </div>
-        
+
+            <div>
+                <h1 class="mt-1 cyan--text">Best selling</h1>
+            </div>      
     </div>
 
     
@@ -24,7 +25,8 @@ export default {
     components: {
         viewBanners,
         viewProducts
-    }
+    },
+
 }
 </script>
 

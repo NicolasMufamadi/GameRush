@@ -34,9 +34,14 @@ export default {
         ratingsTotal: 0, 
         ratingSum: 0,
         reviews: [],
-        ratings: 0 
+        ratings: 0,
     
     }),
+/*
+    async created(){
+        let product = await axios.get('http://localhost:8000/products/getproduct/'+this.review.ProductId)
+        this.nReviewers = product.data.ProductReviewers 
+    },*/
 
     methods: {
 
@@ -52,7 +57,7 @@ export default {
             //get nreviews 
             let response =  await axios.get('http://localhost:8000/reviews/productreviews',{params: {ProductId: this.review.ProductId}})
             this.reviews = response.data
-
+            
             for(let i = 0; i < this.reviews.length; i++){
                 
                this.ratingSum += this.reviews[i].Rating 
@@ -62,7 +67,8 @@ export default {
                console.log(this.ratings)
             }
 
-           this.product = await axios.put('http://localhost:8000/products/updateproduct/'+this.review.ProductId, {ProductRatings: this.ratingsTotal})
+           this.product = await axios.put('http://localhost:8000/products/updateproduct/'+this.review.ProductId,
+                               {ProductRatings: this.ratingsTotal, ProductReviewers: this.reviews.length})
            
            if(this.product){
                this.$router.go('/')

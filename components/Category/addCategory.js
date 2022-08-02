@@ -1,16 +1,18 @@
 const db = require('../../database/database')
+let categories = []
 
-module.exports= (req,res)=>{
+module.exports= async (req,res)=>{
 
-    db.Category.create({
+   await db.Category.create({
         categoryName: req.body.categoryName,
         categoryDesc: req.body.categoryDesc,
         subCategory: req.body.subCategory,
 
     }).then(response=>{
         res.status(200).send(response)
-    }).catch(err=>{
-        res.status(400).send(err)
+    }).catch((err)=>{
+        res.send(err)
     })
 
 }
+

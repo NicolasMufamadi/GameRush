@@ -37,19 +37,11 @@
                     >
 
                     </v-text-field>
+ 
+                    <a v-bind:href="`/forgotpassword`" class="ml-1">Forgot Password?</a>
 
                 </v-col>
-                <div class="mx-2">
 
-                
-                <v-checkbox
-                   label="keep me logged in"
-                   color="#66FCF1"
-                   hide-details
-                >
-
-                </v-checkbox>
-               </div>
             </v-row>
         </v-container>
         <v-card-actions>
@@ -110,9 +102,8 @@ export default {
 
                    localStorage.setItem('token',response.data.token)               
                    this.$store.dispatch('getauth',response.data)
-                  // this.$router.go('')
                    this.reset()
-                 this.done()
+                   this.done()
                }else{
                    this.Password_err = "You've been banned"
                }

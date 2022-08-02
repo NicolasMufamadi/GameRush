@@ -12,7 +12,7 @@
         <div class="d-flex">
            <sortProduct />
            <v-divider class="mx-2 white" vertical color="grey"></v-divider>
-           <filterProduct />
+           
         </div>
 
         <div class="mt-5">
@@ -50,7 +50,7 @@ import axios from 'axios'
 import removeProduct from '../../Product/removeProduct.vue'
 import { mapGetters } from 'vuex'
 import sortProduct from '../../Product/sortProducts.vue'
-import filterProduct from '../../Product/filterProducts.vue'
+//import filterProduct from '../../Product/filterProducts.vue'
 
 export default {
 name: 'ManageProducts',
@@ -68,7 +68,7 @@ data:()=>({
 components: {
     removeProduct,
     sortProduct,
-    filterProduct
+ //   filterProduct
 },
 
 computed:{

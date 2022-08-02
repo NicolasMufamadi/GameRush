@@ -44,9 +44,13 @@ module.exports = (sequelize,Sequelize)=>{
         },
 
         ProductRatings: {
-            type: Sequelize.DECIMAL,
+            type: Sequelize.INTEGER,
         },
 
+        ProductReviewers: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
 
         ProductStatus: {
             type: Sequelize.TEXT,

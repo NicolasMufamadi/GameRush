@@ -54,6 +54,7 @@
 import axios from 'axios'
 import removeCategory from './removeCategory'
 import editCategory from './editCategory'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'viewCategory',
@@ -98,8 +99,13 @@ export default {
           ]
     }),
 
+computed: {
+      ...mapGetters(['user'])
+},
+
+
 created(){
-     
+     if(this.user != null && (this.user.data.UserType == 'Product Manager' || this.user.data.UserType == 'Admin')){
         axios.get('http://localhost:8000/categories/getcategories')
         .then(response=>{
             if(response){
@@ -109,6 +115,10 @@ created(){
         }).catch(err=>{
             console.log(err)
         })
+
+       }else{
+          this.$router.push('/')
+      }
 
     },
 
@@ -122,10 +132,7 @@ beforeMount(){
         }).then((response)=>{
               
               if(response.data.Authorization !== 'LoggedIn'){
-                   
-                    this.$router.push('/')
                     this.$store.dispatch('logout')
-              
               }
 
         }).catch(console.log())

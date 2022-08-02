@@ -25,6 +25,7 @@ db.AddressBook = require('../models/addressBook')(sequelize,Sequelize)
 db.Order = require('../models/order')(sequelize,Sequelize)
 db.Review = require('../models/review')(sequelize,Sequelize)
 
+db.sequelize.sync()
 //db.sequelize.sync({force:true})
 
 module.exports = db;

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
 
+import viewGames from '../components/Product/viewGames'
 import ProfileDetails from '../components/UserAccount/ProfileDetails'
 import PageNotFound from '../components/NotFound'
 import NameForm from '../components/UserAccount/profileforms/NameForm'
@@ -29,6 +30,9 @@ import Order from '../components/Order/order'
 import ViewOrders from '../components/Order/viewOrders'
 import manageOrders from '../components/Order/manageOrders'
 import manageReviews from '../components/Reviews/manageReviews'
+import Reports from '../components/Reports/reports'
+import createNewPassword from '../components/Authentication/createNewPassword'
+
 
 Vue.use(VueRouter)
 
@@ -40,7 +44,12 @@ const routes = [
          component: Home
     },
 
-
+    {
+         path: '/viewgames',
+         name: 'View Games',
+         props: (route) => ({order: route.query.order}),
+         component: viewGames 
+    },
 
     {
         path: '/myaccount',
@@ -207,7 +216,20 @@ const routes = [
         component: manageReviews
     },
 
-    
+    {
+       path: '/viewreports',
+       name: 'View Reports',
+       component: Reports  
+    },
+
+    {
+        path: '/forgotpassword',
+        name: 'Create New Password',
+        component: createNewPassword
+    },
+
+
+
     {
         path: '/PageNotFound',
         name: '404',

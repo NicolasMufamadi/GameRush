@@ -61,7 +61,7 @@
                height="150" 
                width="200"
                @click="manageCategories">
-             <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-toolbox</v-icon>
+             <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-alpha-c-circle-outline</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Categories</p>
              </div>
@@ -123,7 +123,8 @@
              elevation=1 
              color="#1F2833" 
              height="150" 
-             width="200">
+             width="200"
+             @click="manageReports">
              <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-chart-areaspline</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Reports</p>
@@ -210,6 +211,10 @@ export default {
 
         manageReviews(){
             this.$router.push('/managereviews')
+        },
+
+        manageReports(){
+            this.$router.push('viewreports')
         }
 
 

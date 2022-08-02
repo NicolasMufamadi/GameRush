@@ -17,7 +17,7 @@
        class="tittle"
        
  >
-  <h2 class="cyan--text"> GameRush</h2>
+ <v-btn plain x-large class="cyan--text" to="/">GameRush</v-btn>
  </v-toolbar-title>  
 <v-spacer></v-spacer>
 
@@ -44,7 +44,7 @@
            light 
            depressed 
            color="cyan" 
-           to='/'
+           to='/viewgames'
            class='mx-3'>
           <v-icon>mdi-gamepad</v-icon>
            Games
@@ -96,11 +96,15 @@
              <v-list-item-title><v-icon>mdi-archive</v-icon>Manage Products</v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType == 'Order Manager'">
+           <v-list-item v-if="user && user.data.UserType == 'Product Manager'" to="/managecategories">
+             <v-list-item-title><v-icon>mdi-alpha-c-circle-outline</v-icon>Manage Categories</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Order Manager'" to="/manageorders">
              <v-list-item-title><v-icon>mdi-briefcase-edit</v-icon>Manage Orders</v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'">
+           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'" to="/manageorders">
              <v-list-item-title><v-icon>mdi-truck-check</v-icon>Manage Deliveries</v-list-item-title>
            </v-list-item>
 
@@ -217,11 +221,10 @@ created(){
     logout(){
 
         this.$store.dispatch('logout')
-        if(this.$route.name !== 'Home'){
+      if(this.$route.name !== 'Home' ){
           this.$router.go('/')
-        }else{
-          this.$router.go()
         }
+        this.loginDialog = true 
         sessionStorage.clear();
         
 

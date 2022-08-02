@@ -6,6 +6,7 @@ module.exports = (req,res)=>{
 
     const url = req.protocol + '://' + req.get('host')
     var path = url + '/public/'+ req.file.filename
+    let rating = 0
 
    db.Product.create({
 
@@ -16,7 +17,7 @@ module.exports = (req,res)=>{
        ProductQuant:   req.body.ProductQuant,
        ProductCategory: req.body.ProductCategory,
        ProductSubCategory: req.body.ProductSubCategory,
-       ProductRatings: 0,
+       ProductRatings: rating,
        ProductStatus: 'In-Stock',
        ProductImg:     path,
 

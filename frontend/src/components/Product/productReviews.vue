@@ -3,12 +3,12 @@
       <v-card-title class="cyan--text">Product Reviews</v-card-title>
       <v-divider></v-divider>
       
-      <div class="d-flex justify-space-around">
+      <div class="d-flex justify-space-between">
         
         <div v-if="reviews.length > 0" class="boarder">
              <h2 class="cyan--text text-center">Ratings</h2>
              <div>
-                 <h4>5<v-icon small class="ml-1 mr-1" color="yellow darken-3">mdi-star</v-icon></h4>
+                 <h4>5<v-icon small class="" color="yellow darken-3">mdi-star</v-icon></h4>
                  <v-progress-linear 
                          v-model="rFive"
                          rounded
@@ -22,7 +22,7 @@
              </div>
 
              <div>
-                 <h4>4<v-icon small class="ml-1" color="yellow darken-3">mdi-star</v-icon></h4>
+                 <h4>4<v-icon small  color="yellow darken-3">mdi-star</v-icon></h4>
                  <v-progress-linear 
                          v-model="rFour"
                          rounded
@@ -36,7 +36,7 @@
              </div>
 
             <div>
-                 <h4>3<v-icon small class="ml-1" color="yellow darken-3">mdi-star</v-icon></h4>
+                 <h4>3<v-icon small  color="yellow darken-3">mdi-star</v-icon></h4>
                  <v-progress-linear 
                          v-model="rThree"
                          rounded
@@ -50,7 +50,7 @@
              </div>
 
             <div>
-                 <h4>2<v-icon small class="ml-1" color="yellow darken-3">mdi-star</v-icon></h4>
+                 <h4>2<v-icon small  color="yellow darken-3">mdi-star</v-icon></h4>
                  <v-progress-linear 
                          v-model="rTwo"
                          rounded
@@ -65,7 +65,7 @@
 
 
             <div>
-                 <h4>1<v-icon small class="ml-1" color="yellow darken-3">mdi-star</v-icon></h4>
+                 <h4>1<v-icon small color="yellow darken-3">mdi-star</v-icon></h4>
                  <v-progress-linear 
                          v-model="rOne"
                          value="0"
@@ -195,7 +195,7 @@ export default {
 .progress{
     position: absolute;
     width: 10%;
-    left: 4.5%;
+    left: 4%;
 }
 
 .p_1{
@@ -240,13 +240,13 @@ export default {
 
 .rating{
     position: absolute;
-    left: 15%;
+    left: 14.5%;
 }
 
 .boarder{
     border: 1px teal solid;
     height: 250px;
-    width: 300px;
+    width: 365px;
     margin: 20px 20px;
 }
 

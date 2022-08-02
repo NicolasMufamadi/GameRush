@@ -15,7 +15,8 @@ module.exports = (req,res)=>{
             ProductCategory: req.body.ProductCategory,
             ProductSubCategory: req.body.ProductSubCategory,
             ProductStatus: req.body.ProductStatus,
-            ProductRatings: req.body.ProductRatings
+            ProductRatings: req.body.ProductRatings,
+            ProductReviewers: req.body.ProductReviewers
             
         }).then(data=>{
             res.status(200).send(data)

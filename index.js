@@ -18,6 +18,7 @@ const CartRoutes = require('./routes/CartRoutes/cartRoutes')
 const AddressRoutes = require('./routes/AddressRoutes/addressRoutes')
 const OrderRoutes = require('./routes/OrderRoutes/orderRoutes')
 const ReviewRoutes = require('./routes/ReviewsRoutes/reviewsRoutes')
+const ReportRoutes = require('./routes/ReportRoutes/reportRoutes')
 
 app.use('/users',UserRoutes);
 app.use('/products',ProductRoutes)
@@ -28,5 +29,6 @@ app.use('/cart',CartRoutes)
 app.use('/address',AddressRoutes)
 app.use('/orders',OrderRoutes)
 app.use('/reviews',ReviewRoutes)
+app.use('/report',ReportRoutes)
 
 app.listen(process.env.PORT,()=>console.log(`Server up and running on http:localhost:${process.env.PORT}`))

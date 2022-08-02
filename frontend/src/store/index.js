@@ -5,6 +5,7 @@ import manageProduct from './modules/manageProduct'
 import manageAddress from './modules/manageAddress'
 import authUser from './modules/authUser'
 import Cart from './modules/cart'
+import Report from './modules/report'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
         authUser,
         manageProduct,
         manageAddress,
-        Cart
+        Cart,
+        Report
 
     },
     plugins: [createPersistedState()]

@@ -1,4 +1,5 @@
 import axios from "axios"
+import qs from 'querystring' 
 
 const state = {
    product: '',
@@ -24,10 +25,11 @@ const actions = {
    
    },
 
-   async getProducts({commit,dispatch}){
+   async getProducts({commit,dispatch},query){
 
        try {
-              let data = await axios.get('http://localhost:8000/products/getproducts')
+              let data = await axios.get('http://localhost:8000/products/getproducts?'+ qs.stringify(query,true))
+               console.log(query) 
               commit('getProducts',data.data)
               dispatch('updateProduct')
        } catch (error) {
@@ -81,7 +83,8 @@ const actions = {
       } catch (error) {
          console.log(error)
       }
-   }
+   },
+
 }
 
 const getters = {

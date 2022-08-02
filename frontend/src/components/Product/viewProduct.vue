@@ -54,6 +54,11 @@
                                Add to Cart
                            </v-btn>
                   </v-card-actions>
+
+                  <p v-if="product.ProductRatings > 0" class="white--text text-center mt-1">Rating: {{product.ProductRatings}} 
+                     <v-icon  class="cyan--text ml-2">mdi-account</v-icon>
+                     {{product.ProductReviewers}} reviewers
+                  </p>
                   
                     <v-rating
                        v-if="product.ProductRatings > 0"
@@ -63,20 +68,13 @@
                        empty-icon="$ratingFull"
                        half-increments
                        class="text-center"
+                       small
                      
                     >
 
                     </v-rating>
                 
-                   <h4 v-else class="mt-3 cyan--text text-center">No reviews</h4>
-
-            <v-btn 
-                  class="mt-5 ml-16"
-                  outlined 
-                  color='cyan'>
-                <v-icon>mdi-pencil</v-icon>
-                  Review
-            </v-btn>
+                   <h4 v-else class="mt-3 cyan--text text-center">No reviews, buy and be the first</h4>
               
              </v-card>
 
@@ -139,7 +137,7 @@ export default {
          if(this.user !== null){
               this.$store.dispatch('getCart',{UserId: this.user.data.UserId, ProductId: this.product.ProductId})
               this.$store.dispatch('authenticateUser')
-              console.log(this.Cart)
+              console.log(this.product)
          }
 
   

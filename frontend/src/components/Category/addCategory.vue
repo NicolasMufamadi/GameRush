@@ -41,6 +41,7 @@
                     <v-btn outlined  @click="add_Category" color="#1F2833">
                         Submit
                     </v-btn>
+                    <p v-if="subCategoryDuplication" class="red--text">{{subCategoryDuplication}}</p>
                 </div>
             </form>
         </div>
@@ -63,7 +64,9 @@ export default {
          name_err: '',
         desc_err: '',
         subcat_err: '',
-        User: ''
+        User: '',
+        subCategoryDuplication: '',
+        nulValue: ''
 
     }),
 
@@ -83,7 +86,9 @@ export default {
     methods: {
           
           add_Category(){
-                
+    
+                if(!this.validate()) return false              
+    
                 axios.post('http://localhost:8000/categories/addcategory',{
                     
                     categoryName: this.categoryName,
@@ -91,8 +96,11 @@ export default {
                     subCategory: this.subCategory
                 
                 }).then(response=>{
-                    
-                    if(response){
+                    console.log(response)
+                    if(response.data.name == 'SequelizeUniqueConstraintError'){
+                        this.subCategoryDuplication = 'subCategory for this Category already exist'
+                    }
+                    else{
                         this.$router.push('/managecategories')
                     }
 

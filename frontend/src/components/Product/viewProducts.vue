@@ -37,7 +37,7 @@
                  <div class="ml-2 cyan--text">
                      <h4>R {{product.ProductPrice}}</h4>
                      <h4>{{product.ProductStatus}}</h4>
-                     <h6><v-icon x-small color='yellow'>mdi-star</v-icon>{{'('+product.ProductRatings+')'}}</h6>
+                     <h6><v-icon class="mr-1" x-small color='yellow'>mdi-star</v-icon>{{product.ProductRatings +' ('+product.ProductReviewers+') '}}</h6>
                  </div>
 
                   
@@ -54,14 +54,17 @@
 <script>
 
 //import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'viewProducts',
     data: ()=>({
         
           productImg: '',
-          ImgSrc: ''
+          ImgSrc: '',
+          modDate: [],
+          sortedProducts: [],
+          
 
     }),
     
@@ -70,19 +73,29 @@ export default {
         ...mapGetters(['products'])
     },
 
-    created(){
-        
-        this.$store.dispatch('getProducts')
+    async created(){
+          
+        await this.getProducts(this.$route.query)
+          scroll(0,0)
 
     },
 
+    watch: {
+        async $route(){
+            await this.getProducts(this.$route.query)
+             scroll(0,0)
+        }
+    },
+
     methods: {
+
+       ...mapActions(['getProducts']),
          
-         viewProduct(product){
+        viewProduct(product){
              this.$store.dispatch('getproduct',product)
              this.$router.push('/viewproduct')
-         }
-         
+        },
+
     }
 }
 </script>
