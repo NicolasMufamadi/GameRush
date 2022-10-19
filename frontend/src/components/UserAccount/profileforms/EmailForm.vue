@@ -83,23 +83,32 @@ export default {
         ...mapGetters(['user'])
     },
 
-          beforeMount(){
+     beforeMount(){
 
         axios.post('http://localhost:8000/users/checkauth',this.user,{
           headers:{
             'content-type': 'text/json',
             'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(()=>{
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
 
+        }).catch(console.log())
+    
+  },
+
+
+  created(){
+      
          this.Id = this.user.data.UserId
          this.Email = this.user.data.Email
-        }).catch(()=>{
-          
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
-    
+
   },
 
     methods:

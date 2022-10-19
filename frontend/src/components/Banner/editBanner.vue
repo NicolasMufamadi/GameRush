@@ -82,7 +82,7 @@ export default {
          this.RemoveOn = this.banner.expDate
          this.bannerImg = this.banner.bannerImg
          
-         this.image = this.bannerImg.substring(1,this.bannerImg.length-1)
+         this.image = this.bannerImg
          console.log(this.Id)
 
 

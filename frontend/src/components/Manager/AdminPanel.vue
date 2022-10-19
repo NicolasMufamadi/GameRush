@@ -2,7 +2,7 @@
     <div >
 
       <div class="pl-3 pb-2 cyan--text ">
-        <h1>Admin Panel</h1>
+        <h1 class="mt-5 mb-10">Admin Panel</h1>
       </div>
 
       <div class="d-flex flex-wrap justify-space-around">
@@ -15,7 +15,7 @@
                 color="cyan" 
                 width="200"
                 height="150" 
-                @click="manageusers">
+                @click="manageUsers">
              <v-icon  class="pl-13 pt-2" size="100" >mdi-account</v-icon>
              <div class="pl-12">
                  <p class="pl-8 pb-3">Users</p>
@@ -30,7 +30,7 @@
              color="#1F2833"
              height="150" 
              width="200" 
-             @click="manageproducts">
+             @click="manageProducts">
              <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-archive</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Products</p>
@@ -44,7 +44,8 @@
                 elevation=1 
                 color="cyan"
                 height="150" 
-                width="200">
+                width="200"
+                @click="manageReviews">
              <v-icon class="pl-13 pt-2" size="100">mdi-star</v-icon>
             <div class="pl-12">
                  <p class="pl-8 pb-3">Reviews</p>
@@ -59,8 +60,8 @@
                color="#1F2833"
                height="150" 
                width="200"
-               @click="managecategories">
-             <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-toolbox</v-icon>
+               @click="manageCategories">
+             <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-alpha-c-circle-outline</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Categories</p>
              </div>
@@ -78,7 +79,7 @@
                color="cyan"
                height="150" 
                width="200"
-               @click="managecuopons">
+               @click="manageCuopons">
              <v-icon class="pl-13 pt-2" size="100">mdi-ticket-percent</v-icon>
              <div class="pl-12">
                  <p class="pl-6 pb-3">Coupons</p>
@@ -92,7 +93,8 @@
               elevation=1 
               color="#1F2833" 
               height="150"
-              width="200">
+              width="200"
+              @click="manageOrders">
              <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-folder-plus</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Orders</p>
@@ -107,7 +109,7 @@
                color="cyan"
                height="150" 
                width="200" 
-               @click="managebanners">
+               @click="manageBanners">
              <v-icon class="pl-13 pt-2" size="100">mdi-folder-multiple-image</v-icon>
              <div class="pl-12">
                  <p class="pl-8 pb-3">Banners</p>
@@ -121,7 +123,8 @@
              elevation=1 
              color="#1F2833" 
              height="150" 
-             width="200">
+             width="200"
+             @click="manageReports">
              <v-icon color="cyan" class="pl-13 pt-2" size="100">mdi-chart-areaspline</v-icon>
              <div class="pl-12 cyan--text">
                  <p class="pl-8 pb-3">Reports</p>
@@ -129,7 +132,7 @@
          </v-sheet>
 
       </div>
-
+ 
     </div>
 
 </template>
@@ -150,7 +153,7 @@ export default {
    },
 
    created(){
-       if(this.user !== null){
+       if(this.user !== null && this.user.data.UserType === 'Admin'){
           this.Role = this.user.data.UserType
           this.data = this.user
       }else{
@@ -159,48 +162,62 @@ export default {
 
    },
  
- beforeMount(){
-       
-    if(this.Role == 'Admin'){
-       
-        
-        axios.post('http://localhost:8000/users/checkauth',this.data,{
-            headers:{
-                'content-type': 'text/json',
+   beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
             'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(data=>{
-            console.log(data)
-        }).catch(()=>{
-            
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                   
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+              
+              }
+
+        }).catch(console.log())
     
-      }
   },
 
 
     methods:{
-        manageusers(){
+        
+        manageUsers(){
             this.$router.push('/manageusers')
         },
 
-        manageproducts(){
+        manageProducts(){
             this.$router.push('/manageproducts')
         },
 
-        managebanners(){
+        manageBanners(){
             this.$router.push('/managebanners')
         },
 
-        managecategories(){
+        manageCategories(){
             this.$router.push('/managecategories')
         },
 
-        managecuopons(){
+        manageCuopons(){
             this.$router.push('/managecuopons')
+        },
+
+        manageOrders(){
+           this.$router.push('/manageorders')
+        },
+
+        manageReviews(){
+            this.$router.push('/managereviews')
+        },
+
+        manageReports(){
+            this.$router.push('viewreports')
         }
+
+
     }
 }
 </script>

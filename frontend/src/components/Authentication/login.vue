@@ -1,4 +1,6 @@
 <template>
+<div>
+
     <v-card>
         <v-card-title class="title">
             <v-icon color="#1F2833">mdi-account</v-icon>
@@ -35,19 +37,11 @@
                     >
 
                     </v-text-field>
+ 
+                    <a v-bind:href="`/forgotpassword`" class="ml-1">Forgot Password?</a>
 
                 </v-col>
-                <div class="mx-2">
 
-                
-                <v-checkbox
-                   label="keep me logged in"
-                   color="#66FCF1"
-                   hide-details
-                >
-
-                </v-checkbox>
-               </div>
             </v-row>
         </v-container>
         <v-card-actions>
@@ -62,17 +56,21 @@
          </v-btn>
          </div>
         </v-card-actions>
-    </v-card>
+    </v-card>      
+   
+ </div>
 </template>
 
 <script>
 
 import axios from 'axios'
 
+
 export default {
 
    name:"login",
    props:['done'],
+
    data:()=>({
         Email: '',
         Password: '',
@@ -80,6 +78,8 @@ export default {
         Password_err: null,
 
    }),
+
+
    methods:{
 
  
@@ -103,7 +103,7 @@ export default {
                    localStorage.setItem('token',response.data.token)               
                    this.$store.dispatch('getauth',response.data)
                    this.reset()
-                 this.done()
+                   this.done()
                }else{
                    this.Password_err = "You've been banned"
                }

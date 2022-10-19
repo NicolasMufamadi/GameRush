@@ -2,32 +2,25 @@ import axios from 'axios'
 
 const state = {
     user: null,
+    auth: 'LoggedOut' 
 }
 
 
 const mutations = {
     setAuth(state,data){
-        state.user = data
+        state.user = data 
     },
 
-  async checkout(state){
-        try{
-             let response = await axios.post('http://localhost:8000/users/checkauth',{})
-             console.log('auth' + response)
-            if(response){
-                state.auth = true  
-            }
-        }catch(err){
-            if(err){
-                state.auth = false
-            }
-        }
-    },
+   checkauth(state,data){
+       
+     state.auth = data
+  
+  },
 
     logout(state){
         localStorage.removeItem('token')
         state.user = null
-       // state.auth = false
+        state.auth = 'LoggedOut'
     }
 
 
@@ -39,8 +32,19 @@ const actions = {
         commit('setAuth',data)
     },
 
-    checkauth({commit}){
-        commit('checkout')
+    async authenticateUser({commit,state}){
+        try {
+            let auth = await axios.post('http://localhost:8000/users/checkauth',state.user,{
+                             headers:{ 'content-type': 'text/json',
+                                      'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+                                     }
+                                })   
+                 console.log(auth.data)
+                 commit('checkauth',auth.data.Authorization)
+           
+             }catch (error) {
+                console.log
+           }
     },
 
     logout({commit}){

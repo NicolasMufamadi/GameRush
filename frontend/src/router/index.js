@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
-import UserCard from '../components/UserAccount/UserCard'
+
+import viewGames from '../components/Product/viewGames'
 import ProfileDetails from '../components/UserAccount/ProfileDetails'
 import PageNotFound from '../components/NotFound'
 import NameForm from '../components/UserAccount/profileforms/NameForm'
@@ -19,6 +20,18 @@ import ManageCategories from '../components/Category/viewCategories'
 import AddCategory from '../components/Category/addCategory'
 import ManageCuopons from '../components/Cuopon/manageCuopons'
 import AddCuopons from '../components/Cuopon/addCuopon'
+import ViewProduct from '../components/Product/viewProduct'
+import Cart from '../components/Cart/cart'
+import AddressBook from '../components/UserAccount/addressBook'
+import AddressBookForm from '../components/UserAccount/addressBookForm'
+import EditAddress from '../components/UserAccount/editAddressDetails'
+import CheckOut from '../components/Cart/CheckOut/checkout'
+import Order from '../components/Order/order'
+import ViewOrders from '../components/Order/viewOrders'
+import manageOrders from '../components/Order/manageOrders'
+import manageReviews from '../components/Reviews/manageReviews'
+import Reports from '../components/Reports/reports'
+import createNewPassword from '../components/Authentication/createNewPassword'
 
 
 Vue.use(VueRouter)
@@ -32,13 +45,20 @@ const routes = [
     },
 
     {
-         path: '/myaccount',
-         name: 'MyAccount',
-         component: UserCard
+         path: '/viewgames',
+         name: 'View Games',
+         props: (route) => ({order: route.query.order}),
+         component: viewGames 
     },
 
     {
-        path: '/myaccount/personal-details/',
+        path: '/myaccount',
+        name: 'Personal Details',
+        component: ProfileDetails
+    },
+
+    {
+        path: '/myaccount/personal-details',
         name: 'Personal-Details',
         component: ProfileDetails
     },
@@ -100,6 +120,12 @@ const routes = [
     },
 
     {
+       path: '/viewproduct',
+       name: 'View Product',
+       component: ViewProduct 
+    },
+
+    {
         path: '/managebanners',
         name: 'Manage Banners',
         component: ManageBanners
@@ -135,13 +161,81 @@ const routes = [
         component: AddCuopons
 
     },
-      
-     
+
+    {
+        path: '/cart',
+        name: 'Cart',
+        component: Cart
+    },
+
+    {
+        path: '/myaccount/address-book',
+        name: 'Address Book',
+        component: AddressBook
+    },
+
+    {
+        path: '/myaccount/address-book/add',
+        name: 'Add Address_Book_Form',
+        component: AddressBookForm
+    },
+
+    {
+       path: '/myaccount/edit-address-details',
+       name: 'Edit Address Details',
+       component: EditAddress
+    },
+
+    {
+      path: '/checkout',
+      name: 'CheckOut',
+      component: CheckOut
+    },
+
+    {
+        path: '/ordersuccessful',
+        name: 'Order Placed',
+        component: Order
+    },
+
+    {
+        path: '/vieworders',
+        name: 'View Orders',
+        component: ViewOrders
+    },
+
+    {
+        path: '/manageorders',
+        name: 'Manage Orders',
+        component: manageOrders
+    },
+
+    {
+        path: '/managereviews',
+        name: 'Manage Reviews',
+        component: manageReviews
+    },
+
+    {
+       path: '/viewreports',
+       name: 'View Reports',
+       component: Reports  
+    },
+
+    {
+        path: '/forgotpassword',
+        name: 'Create New Password',
+        component: createNewPassword
+    },
+
+
+
     {
         path: '/PageNotFound',
         name: '404',
         component: PageNotFound
     },
+
 
     {path:'*',redirect:'/PageNotfound'}
 

@@ -41,6 +41,7 @@
                     <v-btn outlined  @click="add_Category" color="#1F2833">
                         Submit
                     </v-btn>
+                    <p v-if="subCategoryDuplication" class="red--text">{{subCategoryDuplication}}</p>
                 </div>
             </form>
         </div>
@@ -51,6 +52,7 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'addCategory',
@@ -62,13 +64,31 @@ export default {
          name_err: '',
         desc_err: '',
         subcat_err: '',
+        User: '',
+        subCategoryDuplication: '',
+        nulValue: ''
 
     }),
+
+    computed: {
+         ...mapGetters(['user'])
+    },
+
+    beforeMount(){
+         if(this.user !== null && (this.user.data.UserType !== 'Admin' || this.user.data.UserType !== 'Product Manager')) {
+              this.User = this.user
+         }else{
+             this.$router.push('/') 
+         }  
+         
+    },
 
     methods: {
           
           add_Category(){
-                
+    
+                if(!this.validate()) return false              
+    
                 axios.post('http://localhost:8000/categories/addcategory',{
                     
                     categoryName: this.categoryName,
@@ -76,8 +96,11 @@ export default {
                     subCategory: this.subCategory
                 
                 }).then(response=>{
-                    
-                    if(response){
+                    console.log(response)
+                    if(response.data.name == 'SequelizeUniqueConstraintError'){
+                        this.subCategoryDuplication = 'subCategory for this Category already exist'
+                    }
+                    else{
                         this.$router.push('/managecategories')
                     }
 

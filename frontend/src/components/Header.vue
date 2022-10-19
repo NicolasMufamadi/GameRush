@@ -17,7 +17,7 @@
        class="tittle"
        
  >
-  <h2 class="cyan--text"> GameRush</h2>
+ <v-btn plain x-large class="cyan--text" to="/">GameRush</v-btn>
  </v-toolbar-title>  
 <v-spacer></v-spacer>
 
@@ -44,6 +44,7 @@
            light 
            depressed 
            color="cyan" 
+           to='/viewgames'
            class='mx-3'>
           <v-icon>mdi-gamepad</v-icon>
            Games
@@ -59,7 +60,7 @@
            
     >
     <v-icon>mdi-account</v-icon>
-       MyAccount
+       {{ user?'MyAccount' : 'Login'}}
              </v-btn>
         </template>
         <v-list>
@@ -84,7 +85,7 @@
              </v-list-item-title>
 
            </v-list-item>
-           <v-list-item v-if="user">
+           <v-list-item v-if="user" to="/vieworders">
             <v-list-item-title>
             <v-icon>mdi-briefcase-check</v-icon>
                 MyOrders
@@ -95,11 +96,15 @@
              <v-list-item-title><v-icon>mdi-archive</v-icon>Manage Products</v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType == 'Order Manager'">
+           <v-list-item v-if="user && user.data.UserType == 'Product Manager'" to="/managecategories">
+             <v-list-item-title><v-icon>mdi-alpha-c-circle-outline</v-icon>Manage Categories</v-list-item-title>
+           </v-list-item>
+
+           <v-list-item v-if="user && user.data.UserType == 'Order Manager'" to="/manageorders">
              <v-list-item-title><v-icon>mdi-briefcase-edit</v-icon>Manage Orders</v-list-item-title>
            </v-list-item>
 
-           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'">
+           <v-list-item v-if="user && user.data.UserType == 'Delivery Manager'" to="/manageorders">
              <v-list-item-title><v-icon>mdi-truck-check</v-icon>Manage Deliveries</v-list-item-title>
            </v-list-item>
 
@@ -115,12 +120,14 @@
        </v-menu>
      <v-btn  
             outlined
+            rounded
             light 
             depressed 
             color="cyan" 
-            class='mx-3'>
+            class='mx-3'
+            to='/cart'>
             <v-icon>mdi-cart</v-icon>
-            Cart
+            <span class="ml-1">{{nItems}}</span>
             </v-btn>
   </div>
 </v-toolbar-items>
@@ -134,7 +141,7 @@
   max-width="500px"
   transition="dialog-transition"
   >
-  <register :done="doneRegister" />
+  <register :done="doneRegister"/>
 </v-dialog>
 
 <v-dialog
@@ -168,14 +175,34 @@ export default {
  },
  data: ()=>({
     loginDialog: false,
-    registerDialog: false
+    registerDialog: false,
+    registered: false,
+    CartProducts: [],
+    nCartItems: 0,
  }),
+
+
  computed:{
 
-    ...mapGetters(['user'])
+    ...mapGetters(['user','Cart','product','nItems','auth'])
 
  },
 
+created(){
+
+  if(this.user !== null){
+       
+      this.$store.dispatch('getCart',{UserId: this.user.data.UserId, ProductId: this.product.ProductId})
+      this.$store.dispatch('getProducts')
+  
+  }else{
+   
+    this.$store.dispatch('logout')
+    this.$store.dispatch('clearCart')
+ 
+
+  }
+},
 
  methods: {
 
@@ -183,6 +210,7 @@ export default {
    
     doneRegister(){
       this.registerDialog = false;
+      this.registered = true
     },
 
     doneLogin(){
@@ -190,13 +218,16 @@ export default {
        this.$router.go('/')
     },
     
-         logout(){
-      // localStorage.removeItem('token')
-      //  localStorage.setItem('token',null)
+    logout(){
+
         this.$store.dispatch('logout')
+      if(this.$route.name !== 'Home' ){
+          this.$router.go('/')
+        }
+        this.loginDialog = true 
         sessionStorage.clear();
-        this.$router.push('/')
-        this.loginDialog = true
+        
+
     }
 
 

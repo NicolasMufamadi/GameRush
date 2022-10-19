@@ -80,6 +80,7 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'AddCuopon',
@@ -90,7 +91,8 @@ export default {
              cuoponAmountOff: '',
              cuoponMinAmount: '',
              type: 'month',
-             focus: ''
+             focus: '',
+             User: ''
 
     }),
 
@@ -98,6 +100,21 @@ export default {
        
        this.$refs.calendar.checkChange()
        
+    },
+
+
+    computed: {
+         ...mapGetters(['user'])
+    },
+
+    beforeMount(){
+         if(this.user !== null && this.user.data.UserType !== 'Admin') {
+              this.User = this.user
+         }else{
+
+             this.$router.push('/') 
+         }   
+         
     },
 
     mounted(){

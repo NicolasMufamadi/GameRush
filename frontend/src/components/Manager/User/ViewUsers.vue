@@ -193,42 +193,43 @@ export default {
    }
  },
 
-    created(){
-   
-      axios.get('http://localhost:8000/users/getusers')
-      .then(response=>{
-          if(this.user !== null){
-          this.users = response.data
-          this.Role = this.user.UserType
-        }else{
-             this.$router.push('/')
-        }
-      }).catch(err=>{
-          console.log(err)
-      })
-   
-    },
+ created(){
 
-    beforeMount(){
+    if(this.user !== null && this.user.data.UserType === 'Admin'){
+        
+        axios.get('http://localhost:8000/users/getusers')
+        .then(response=>{
+            if(response){
+                this.users = response.data
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+         
+    }else{
+        
+        this.$router.push('/')
+    }
 
-    if(this.Role == 'Admin'){
 
-    axios.post('http://localhost:8000/users/checkauth',this.user,{
-        headers:{
+ },
+
+ beforeMount(){
+
+  axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
             'content-type': 'text/json',
             'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(data=>{
-            console.log(data)
-        }).catch(()=>{
-            
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
-    }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                    this.$store.dispatch('logout')
+              }
+
+        }).catch(console.log())
     
   },
-
 
  methods:{
 
@@ -246,8 +247,6 @@ export default {
        this.Email = item.Email
        this.selected = item.UserType
        this.Banned = item.IsBanned
-       console.log(this.selected)
-
    },
 
    updateRole(){
@@ -285,15 +284,18 @@ export default {
    
    ban(){
 
-    
         axios.put('http://localhost:8000/users/updateuser/ban/',{
             Email: this.Email,
             IsBanned: !this.Banned
-        }).then(()=>{
-          //  console.log(response)
+        }).then((response)=>{
+           if(response !== 'Admin'){
             this.$router.go('/manageuser')
             this.closeBanDialog()
-        })
+           }else{
+              console.log('you cannot ban this user')
+           }   
+        }).catch((console.log()))
+    
 
    },
 

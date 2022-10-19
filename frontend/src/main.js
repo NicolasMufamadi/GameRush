@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Axios from 'axios'
+import Vuelidate from 'vuelidate'
 
 Axios.defaults.baseURL = process.env.BASE_URL
 
@@ -12,6 +13,8 @@ Vue.config.productionTip = false
 Vue.use(Vuetify,{
   iconfont: 'mdi'
 })
+Vue.use(Vuelidate)
+
 const vuetify = new Vuetify({});
 
 
@@ -21,3 +24,4 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+

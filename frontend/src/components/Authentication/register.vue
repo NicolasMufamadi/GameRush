@@ -1,8 +1,10 @@
 <template>
+<div>
+
   <v-card>
     <v-card-title>
       <span class="title">
-        <v-icon color="#1F2833">mdi-account</v-icon>
+        <v-icon color='cyan'>mdi-account</v-icon>
         Register
       </span>
     </v-card-title>
@@ -116,17 +118,38 @@
         </v-btn>
       </div>
     </v-card-actions>
-  </v-card>
+   </v-card>
+
+   <v-dialog
+      v-model="loader"
+      persistent
+      width = "400px"
+      transition="dialog-transition"
+   >
+    <Loader :interval='interval'/>
+   </v-dialog>
+
+</div>
 
 </template>
 
 <script>
 import axios from 'axios'
 import Validator from 'validator'
-//import {mapGetters} from 'vuex'
+import Loader from '../Loader/loader.vue'
+
 export default {
+
   name: "register",
+   
    props: ["done"],
+   
+   components: {
+      
+      Loader
+
+   },
+
    data: ()=>({
       FirstName: '',
       LastName: '',
@@ -135,7 +158,6 @@ export default {
       Password: '',
       ConfirmPassword: '',
       Phone: '',
-      UserType: "Customer",
       FirstName_err: null,
       LastName_err: null,
       Email_err: null,
@@ -143,8 +165,16 @@ export default {
       ConfirmPassword_err: null,
       Password_err: null,
       Phone_err: null,
+      loader: false,
+      interval: {},
+ 
+  
     
    }),
+
+
+
+
    methods: {
    submitForm(e){
        e.preventDefault()
@@ -160,11 +190,14 @@ export default {
               Phone: this.Phone,
               UserType: this.UserType
            }).then(response=>{
-             
-             console.log(response)
-             //this.$store.dispatch('user',response.data.token)
-             this.reset()
-             this.done()
+            
+            if(response){
+
+                  this.loader = true
+                  this.interval = setTimeout(()=>(this.loader = false),10000)
+                  this.reset()
+                  this.done()
+               }
              })
            .catch(error=>{
              

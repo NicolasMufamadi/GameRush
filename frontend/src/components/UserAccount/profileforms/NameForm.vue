@@ -85,17 +85,24 @@ export default {
             'content-type': 'text/json',
            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
           }
-        }).then(data=>{
-          console.log(data)
+        }).then(response=>{
+          
+             if(response.data.Authorization !== 'LoggedIn'){
+                    this.$router.push('/')
+                    this.$store.dispatch('logout')
+             }
+
+        }).catch(console.log())
+    
+  },
+
+
+  created(){
+         
          this.Id = this.user.data.UserId
          this.FirstName = this.user.data.FirstName
          this.LastName = this.user.data.LastName
-        }).catch(()=>{
-          
-            this.$router.push('/')
-            this.$store.dispatch('logout')
-        })
-    
+  
   },
 
   methods:{

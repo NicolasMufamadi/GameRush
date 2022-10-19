@@ -54,6 +54,7 @@
 import axios from 'axios'
 import removeCategory from './removeCategory'
 import editCategory from './editCategory'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'viewCategory',
@@ -98,8 +99,13 @@ export default {
           ]
     }),
 
-    created(){
-     
+computed: {
+      ...mapGetters(['user'])
+},
+
+
+created(){
+     if(this.user != null && (this.user.data.UserType == 'Product Manager' || this.user.data.UserType == 'Admin')){
         axios.get('http://localhost:8000/categories/getcategories')
         .then(response=>{
             if(response){
@@ -110,7 +116,28 @@ export default {
             console.log(err)
         })
 
+       }else{
+          this.$router.push('/')
+      }
+
     },
+
+beforeMount(){
+
+        axios.post('http://localhost:8000/users/checkauth',this.user,{
+          headers:{
+            'content-type': 'text/json',
+            'Authorization': 'Bearer'+ ' '+ localStorage.getItem('token')
+          }
+        }).then((response)=>{
+              
+              if(response.data.Authorization !== 'LoggedIn'){
+                    this.$store.dispatch('logout')
+              }
+
+        }).catch(console.log())
+    
+  },
 
     methods: {
          deleteItem(item){

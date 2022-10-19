@@ -46,7 +46,7 @@
                     </v-col>
 
                     <v-col class="ml-16" col="12" md="3">
-                        <v-text-field v-model="ProductQuant" filled label="Quantity" color="cyan"></v-text-field>
+                        <v-text-field :error='Quant_err ? true : false' :error-messages='Quant_err' v-model="ProductQuant" filled label="Quantity" color="cyan"></v-text-field>
                     </v-col>
                 </v-row>
 
@@ -58,8 +58,26 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="12" sm="4">
-                        <v-select filled label="Category" color="cyan"></v-select>
+                    <v-col cols="6" sm="4">
+                        <v-select 
+                            v-model="Category"
+                           :items="Categories"
+                           filled 
+                           label="Category" 
+                           color="cyan">
+                        </v-select>
+                    </v-col>
+
+                    <v-col cols="6" sm="4">
+                          <v-select
+                            v-model="SubCategory"
+                            :items="SubCategories"
+                             filled 
+                             label="Subcategory"
+                             color="cyan"  
+                          >
+
+                          </v-select>
                     </v-col>
                 </v-row>
 
@@ -107,6 +125,8 @@
                  :ProductDesc="ProductDesc"
                  :ProductKeywrds="ProductKeywrds"
                  :ProductQuant="ProductQuant"
+                 :Category="Category"
+                 :SubCategory="SubCategory"
                  
                  />
               </v-card-text>
@@ -129,7 +149,7 @@
 
 <script>
 
-//import axios from 'axios'
+import axios from 'axios'
 import addProduct from './addProduct.vue'
 
 export default {
@@ -147,27 +167,88 @@ export default {
         Form_err: '',
         Price_err: '',
         file_err: '',
+        Quant_err: '',
         File: '',
-      
+        Items: [],
+        Categories: [],
+        SubCategories: [],
+        SubCategory: '',
+        Category: ''
 
-      
+
     }),
+
+    created(){
+
+          axios.get('http://localhost:8000/categories/getcategories')
+          .then(response=>{
+              if(response){
+                  this.Items = response.data
+                
+                  for(var i =0; i < this.Items.length; i++){
+
+                      this.Category = this.Items[i].categoryName
+                    
+
+                      if(!this.Categories.includes(this.Category)){
+
+                          this.Categories.push(this.Category)
+                      }
+
+                        this.SubCategory = this.Items[i].subCategory
+                        this.SubCategories.push(this.SubCategory)
+
+
+                  }
+
+                  console.log(this.Categories)
+
+              }
+          }).catch(err=>{
+              console.log(err)
+          })
+
+    },
 
     methods:{
 
         validateForm(){
                  let valid = true
-                 
+              
                  if(this.ProductName == '' || this.ProductPrice =='' || this.ProductQuant =='' || this.ProductKeywrds ==''){
                      this.Form_err = 'Please Provide all information for better user experience' 
                      valid = false
 
-                 }
+                 }      
                  else{
                      this.Form_err = null
+                 }    
+                 
+                 if((this.ProductPrice.trim() - 0) != this.ProductPrice && (''+this.ProductPrice).trim().length > 0){
+            
+                     this.Price_err = 'Enter numbers only'
+                     valid = false
+                 }else{
+
+                     this.Price_err = null
+                    
+                 }
+
+                 if((this.ProductQuant.trim() - 0) != this.ProductQuant.trim()){
+                      this.Quant_err = 'Enter number value'
+                      valid = false
+                 }else{
+
+                     this.Quant_err = null
+                 
+                 }
+
+                 if(valid == true){
                      this.step = 2
                  }
-               
+
+                
+
                return valid
 
         },

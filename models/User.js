@@ -51,6 +51,15 @@ module.exports = (sequelize,Sequelize) =>{
             defaultValue: false
         }
 
+    },
+
+    {
+        indexes: [
+            {
+                unique: true,
+                fields: ['Email']
+            }
+        ]
     })
 
     return User

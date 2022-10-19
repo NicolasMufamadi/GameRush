@@ -22,16 +22,34 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'addProduct',
-    props:['ProductName','ProductPrice','ProductQuant','ProductDesc','ProductKeywrds','ProductImage'], 
+    props:['ProductName','ProductPrice','ProductQuant','ProductDesc','ProductKeywrds','ProductImage','SubCategory','Category'], 
     data: ()=>({
           ProductImg: '',
           image: '',
+          User: '',
     }),
 
-  methods: {
+    computed: {
+         ...mapGetters(['user'])  
+    },
+
+    beforeMount(){
+        if(this.user !== null && (this.user.data.UserType == 'Admin'  || this.user.data.UserType == 'Product Manager')) {
+               
+             this.User = this.user
+
+        } else{
+          
+          this.$router.push('/')
+        } 
+          
+    },
+
+   methods: {
        
        onChange(e){
            
@@ -41,23 +59,27 @@ export default {
 
 
         submit(){
+
+          console.log(this.Category)
         
            var formData = new FormData()
            var File = this.ProductImg
            if(File){
-
+          
            formData.append('ProductImg',File,File.name)
            formData.append('ProductName',this.ProductName)
            formData.append('ProductPrice',this.ProductPrice)
            formData.append('ProductDesc',this.ProductDesc)
            formData.append('ProductKeywrds',this.ProductKeywrds)
            formData.append('ProductQuant',this.ProductQuant)
-        
+           formData.append('ProductCategory',this.Category)
+           formData.append('ProductSubCategory',this.SubCategory)
+              
            }else{
              console.log('Provide no File message')
            }
 
-            axios.post('http://localhost:8000/products/addproduct',formData,{        
+              axios.post('http://localhost:8000/products/addproduct',formData,{                        
             }).then(response=>{
                  if(response && formData){
                    this.$router.push('/manageproducts')
@@ -70,7 +92,8 @@ export default {
 
         }
 
-    } 
+    },
+
 }
 </script>
 

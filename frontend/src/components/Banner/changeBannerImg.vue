@@ -4,9 +4,8 @@
      <input type="file" name="bannerImg" style="display:none" ref="changeImage" @change="onChange">
      <v-btn 
             small
-            outlined  
             class="ml-12 mb-2"
-            color="#1F2833"
+            color="cyan"
             @click="$refs.changeImage.click()">
             ChangeImage
      </v-btn>
@@ -15,9 +14,8 @@
       <div>
           <v-btn 
               small
-              outlined
               class="ml-12 mt-2 mb-2"
-              color="#1F2833"
+              color="cyan"
               @click="saveImage">
                SaveImage
            </v-btn>
@@ -28,6 +26,7 @@
 <script>
 
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
    name: "changeBannerImg",
@@ -36,6 +35,10 @@ export default {
         bannerImg: '',
         file: ''
    }),
+
+   computed:{
+        ...mapGetters(['user'])
+   },
    
    methods:{
     
@@ -43,6 +46,7 @@ export default {
 
             this.bannerImg = e.target.files[0] 
             this.file = this.bannerImg.name
+            console.log(this.file)
 
     },
 
