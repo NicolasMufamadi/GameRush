@@ -31,4 +31,4 @@ app.use('/orders', OrderRoutes)
 app.use('/reviews', ReviewRoutes)
 app.use('/report', ReportRoutes)
 
-app.listen(process.env.PORT, () => console.log(`Server up and running on http:localhost:${process.env.PORT}`))
+app.listen(process.env.PORT || 8000, () => console.log(`Server up and running on http:localhost:${process.env.PORT}`))
